@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.kh.spring.dao.TravelInfoDAO">
+    <!-- =========== 테마 시작 =========== -->
+    <!-- id: selectThemeList -->
+    <!-- 기능: 테마 리스트를 조회하는 쿼리 -->
+    <select id="selectThemeList" resultType="kr.kh.spring.model.vo.ThemeVO">
+        SELECT * FROM theme 
+    </select>
+    <!-- ============ 테마 끝 ============ -->
+</mapper>
+<!-- 
+마이바티스 컨피그에서 매퍼 얼라이어스를 설정해줘서 리저트타입을 단축시킴 -->

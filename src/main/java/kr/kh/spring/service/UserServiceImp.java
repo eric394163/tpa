@@ -18,7 +18,12 @@ public class UserServiceImp implements UserService {
     @Autowired
     UserDAO userDAO;
 
-    // 로그인
+    // ================= 로그인 시작 =================
+
+    // - 함수명 : login
+    // - 매개변수 : loginDTO
+    // - 기능 : 로그인
+    // - 상세 : 아이디와 비밀번호를 확인하여 로그인한다.
     @Override
     public UserVO login(LoginDTO loginDTO) {
         // 매개변수 null 처리
@@ -41,8 +46,14 @@ public class UserServiceImp implements UserService {
 
     }
 
+    // ================= 로그인 끝 =================
 
-    // 회원가입
+    // ================= 회원가입 시작 =================
+
+    // - 함수명 : signup
+    // - 매개변수 : signupDTO
+    // - 기능 : 회원가입
+    // - 상세 : signupDTO를 받아 비밀번호를 암호화하고 newUser에 담아 insertUser를 실행한다.
     @SuppressWarnings("null")
     @Override
     public boolean signup(SignupDTO signupDTO) {
@@ -76,8 +87,10 @@ public class UserServiceImp implements UserService {
         }
     }
 
-
-    // 아이디 중복확인
+    // - 함수명 : checkId
+    // - 매개변수 : id
+    // - 기능 : 아이디 중복확인
+    // - 상세 : id를 받아 selectUserById를 실행하여 결과가 없으면 true를 반환한다.
     @Override
     public boolean checkId(String id) {
         UserVO user = userDAO.selectUserById(id);
@@ -88,7 +101,10 @@ public class UserServiceImp implements UserService {
 
     }
 
-    // 이메일 중복확인
+    // - 함수명 : checkEmail
+    // - 매개변수 : email
+    // - 기능 : 이메일 중복확인
+    // - 상세 : email을 받아 selectUserByEmail를 실행하여 결과가 없으면 true를 반환한다.
     @Override
     public boolean checkEmail(String email) {
         UserVO user = userDAO.selectUserByEmail(email);
@@ -99,7 +115,10 @@ public class UserServiceImp implements UserService {
 
     }
 
-    //닉네임 중복 확인
+    // - 함수명 : checkNickname
+    // - 매개변수 : nickname
+    // - 기능 : 닉네임 중복확인
+    // - 상세 : nickname을 받아 selectUserByNickname를 실행하여 결과가 없으면 true를 반환한다.
     @Override
     public boolean checkNickname(String nickname) {
         UserVO user = userDAO.selectUserByNickname(nickname);
@@ -108,7 +127,8 @@ public class UserServiceImp implements UserService {
         }
         return true;
 
-
     }
+
+    // ================= 회원가입 끝 =================
 
 }

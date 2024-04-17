@@ -2,9 +2,10 @@ package kr.kh.spring.model.vo;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
+@NoArgsConstructor
 
 public class ThemeregionVO {
     private int themeregion_NUM;

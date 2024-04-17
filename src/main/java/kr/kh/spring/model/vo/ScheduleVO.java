@@ -2,11 +2,11 @@ package kr.kh.spring.model.vo;
 
 import java.util.Date;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
+@NoArgsConstructor
 public class ScheduleVO {
     private int schedule_NUM;
     private int schedule_region_NUM;

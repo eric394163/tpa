@@ -2,12 +2,14 @@ package kr.kh.spring.model.vo;
 
 import java.util.Date;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
 public class UserVO {
+
     private int user_NUM;
     private String user_id;
     private String user_email;

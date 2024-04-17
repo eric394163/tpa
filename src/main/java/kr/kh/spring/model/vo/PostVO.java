@@ -2,11 +2,11 @@ package kr.kh.spring.model.vo;
 
 import java.util.Date;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
+@NoArgsConstructor
 public class PostVO {
     private int post_schedule_NUM;
     private String post_title;
