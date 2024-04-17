@@ -29,7 +29,9 @@
 
                 <style>
                     body {
-                        min-width: 500px;
+                        margin: 0;
+                        padding: 0;
+                        min-width: 1000px;
                     }
 
                     h1,
