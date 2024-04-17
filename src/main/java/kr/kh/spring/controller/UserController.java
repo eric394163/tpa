@@ -1,15 +1,8 @@
 
 package kr.kh.spring.controller;
 
-import java.io.IOException;
 import java.util.Collections;
 import java.util.Map;
-
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -23,9 +16,6 @@ import kr.kh.spring.model.dto.LoginDTO;
 import kr.kh.spring.model.dto.SignupDTO;
 import kr.kh.spring.model.vo.UserVO;
 import kr.kh.spring.service.UserService;
-import kr.kh.spring.service.UserServiceImp;
-
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -63,13 +53,31 @@ public class UserController {
             model.addAttribute("url", "/signup");
         }
 
-        return "message";
+        return "/common/message";
     }
 
     @PostMapping("/id/check")
     @ResponseBody
     public ResponseEntity<Map<String, Boolean>> IdCheck(@RequestParam String id) {
         boolean isAvailable = userService.checkId(id);
+        System.out.println(isAvailable);
+        return ResponseEntity.ok(Collections.singletonMap("isAvailable", isAvailable));
+    }
+
+    @PostMapping("/email/check")
+    @ResponseBody
+    public ResponseEntity<Map<String, Boolean>> EmailCheck(@RequestParam String email) {
+        boolean isAvailable = userService.checkEmail(email);
+        System.out.println(isAvailable);
+        return ResponseEntity.ok(Collections.singletonMap("isAvailable", isAvailable));
+    }
+
+    //닉네임중복체크
+    @PostMapping("/nickname/check")
+    @ResponseBody
+    public ResponseEntity<Map<String, Boolean>> NicknameCheck(@RequestParam String nickname) {
+        boolean isAvailable = userService.checkNickname(nickname);
+        System.out.println(isAvailable);
         return ResponseEntity.ok(Collections.singletonMap("isAvailable", isAvailable));
     }
 

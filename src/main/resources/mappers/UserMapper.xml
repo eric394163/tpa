@@ -7,6 +7,9 @@
     <select id="selectUserByEmail" resultType="kr.kh.spring.model.vo.UserVO">
         select * from user where user_email = #{email}
     </select>
+    <select id="selectUserByNickname" resultType="kr.kh.spring.model.vo.UserVO">
+        select * from user where user_nickname = #{nickname}
+    </select>
     <insert id="insertUser">
         insert into user(user_id, user_email, user_nickname, user_pw, user_stateDate, user_state, user_follow, user_role, user_content, user_imgUrl)
         values(#{user.user_id}, #{user.user_email}, #{user.user_nickname}, #{user.user_pw}, now(), '사용중', 0, '사용자', '', '')

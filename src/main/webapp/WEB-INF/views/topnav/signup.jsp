@@ -90,6 +90,7 @@
                                 <div class="form-group">
                                     <label for="nickname">닉네임:</label>
                                     <input type="text" class="form-control" id="nickname" name="nickname" required />
+                                    <label id="id-error4" class="error"></label>
                                 </div>
 
                                 <div class="form-actions">
@@ -155,8 +156,8 @@
                         },
                         nickname: {
                             required: "필수 항목입니다.",
-                            regex:
-                                "닉네임은 2~10자의 영문 대소문자, 숫자, 한글, 밑줄(_)로만 구성해야 합니다.",
+                            // regex:
+                            //     "닉네임은 2~10자의 영문 대소문자, 숫자, 한글, 밑줄(_)로만 구성해야 합니다.",
                         },
                     },
                 });
@@ -279,5 +280,59 @@
                 flagEmail = false;
             });
         </script>
+
+        <script type="text/javascript">
+            let flagNickname = false;  // 닉네임 중복 검사 플래그
+            $('[name=nickname]').on('input', function () {
+                $('#id-error4').text("");
+                $('#id-error4').hide();
+
+                let nickname = $(this).val();
+
+                if (nickname == '') {
+                    $('#id-error4').text('닉네임을 입력하세요.');
+                    $('#id-error4').css('color', 'red');
+                    $('#id-error4').show();
+                    return;
+                }
+
+                let nicknameRegex = /^[a-zA-Z0-9가-힣_]{2,10}$/;
+                if (!nicknameRegex.test(nickname)) {
+                    $('#id-error4').text('닉네임은 2~10자의 영문 대소문자, 숫자, 한글, 밑줄(_)로만 구성해야 합니다.');
+                    $('#id-error4').css('color', 'red');
+                    $('#id-error4').show();
+                    return;
+                }
+
+                $.ajax({
+                    url: "<c:url value='/nickname/check'/>",
+                    method: 'post',
+                    async: true,
+                    data: { 'nickname': nickname },
+                    headers: {
+                        'Accept': 'application/json',  // Explicitly accept JSON
+                    },
+                    success: function (response) {
+                        console.log(response.isAvailable);
+                        if (response.isAvailable) {
+                            $('#id-error4').text('사용 가능한 닉네임입니다.').css('color', 'green').show();
+                            flagNickname = true;
+                        } else {
+                            $('#id-error4').text('이미 사용중인 닉네임입니다.').css('color', 'red').show();
+                            flagNickname = false;
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.log("AJAX Error:");
+                        console.log("Status: ", status);
+                        console.log("Error: ", error);
+                        console.log("Server Response: ", xhr.responseText);
+                    }
+                });
+            });
+        </script>
+
+
+
 
         </body>

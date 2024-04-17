@@ -99,4 +99,16 @@ public class UserServiceImp implements UserService {
 
     }
 
+    //닉네임 중복 확인
+    @Override
+    public boolean checkNickname(String nickname) {
+        UserVO user = userDAO.selectUserByNickname(nickname);
+        if (user != null) {
+            return false;
+        }
+        return true;
+
+
+    }
+
 }
