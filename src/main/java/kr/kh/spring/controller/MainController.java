@@ -17,14 +17,5 @@ public class MainController {
         return "/main/home";
     }
 
-    @GetMapping("/login")
-    public String login(Model model) {
-        return "/topnav/login";
-    }
-
-    @GetMapping("/signup")
-    public String signUp(Model model) {
-        return "/topnav/signup";
-    }
 
 }

@@ -1,10 +1,10 @@
 package kr.kh.spring.model.vo;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
+@NoArgsConstructor
 public class MoveVO {
     private int move_daydetail_NUM;
     private int move_time;

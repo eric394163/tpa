@@ -1,10 +1,10 @@
 package kr.kh.spring.model.vo;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
+@NoArgsConstructor
 public class PlaceVO {
     private int place_NUM;
     private int place_region_NUM;
