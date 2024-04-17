@@ -197,20 +197,26 @@
 
 
                 $.ajax({
-                    url: '<c:url value="/id/check"/>',
-                    method: 'get',
+                    url: "<c:url value='/id/check'/>",
+                    method: 'post',
                     async: true,
                     data: { 'id': id },
+                    headers: {
+                        'Accept': 'application/json',  // Explicitly accept JSON
+                    },
                     success: function (response) {
-                        console.log(response);
+                        console.log(response.isAvailable);
                         if (response.isAvailable) {
                             $('#id-error2').text('사용 가능한 아이디입니다.').css('color', 'green').show();
                         } else {
                             $('#id-error2').text('이미 사용중인 아이디입니다.').css('color', 'red').show();
                         }
                     },
-                    error: function (a, b, c) {
-                        console.log('예외 발생');
+                    error: function (xhr, status, error) {
+                        console.log("AJAX Error:");
+                        console.log("Status: ", status);
+                        console.log("Error: ", error);
+                        console.log("Server Response: ", xhr.responseText);
                     }
 
                 });
@@ -222,60 +228,56 @@
             });
         </script>
 
-        <!-- 이메일 중복관련 -->
         <script type="text/javascript">
-            let flag2 = false;
+            let flagEmail = false;
             $('[name=email]').on('input', function () {
                 $('#id-error3').text("");
                 $('#id-error3').hide();
 
                 let email = $(this).val();
 
-                if (email == '') {
+                if (email === '') {
                     $('#id-error3').text('이메일을 입력하세요.');
                     $('#id-error3').css('color', 'red');
                     $('#id-error3').show();
                     return;
                 }
 
+                var emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+                if (!emailRegex.test(email)) {
+                    $('#id-error3').text('올바른 형식의 이메일을 입력하세요.');
+                    $('#id-error3').css('color', 'red');
+                    $('#id-error3').show();
+                    return;
+                }
 
-
-                $.ajax({ //제이쿼리에서 제공하는 비동기 통신
-                    url: '<c:url value="/email/check"/>',
-                    method: 'get',
-                    async: true, //동기/비동기 선택, true: 비동기, false: 동기
-                    data: {
-                        'email': email
-                    },
-                    success: function (data) {
-                        if (data && email) {
-                            // 이메일 정규식 검사 추가
-                            var emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
-                            if (emailRegex.test(email)) {
-                                $('#id-error3').text('사용 가능한 이메일입니다.');
-                                $('#id-error3').css('color', 'green');
-                                $('#id-error3').show();
-                                flag2 = true;
-                            } else {
-                                $('#id-error3').text('올바른 형식의 이메일을 입력하세요.');
-                                $('#id-error3').css('color', 'red');
-                                $('#id-error3').show();
-                            }
-                            flag2 = true;
+                $.ajax({
+                    url: '<c:url value="/email/check"/>', // 서버 URL
+                    method: 'post',  // HTTP 메서드를 POST로 변경
+                    contentType: 'application/x-www-form-urlencoded', // 콘텐츠 타입 명시
+                    data: { 'email': email }, // 전송할 데이터
+                    success: function (response) {
+                        if (response.isAvailable) {
+                            $('#id-error3').text('사용 가능한 이메일입니다.');
+                            $('#id-error3').css('color', 'green');
+                            $('#id-error3').show();
+                            flagEmail = true;
                         } else {
                             $('#id-error3').text('이미 사용중인 이메일입니다.');
                             $('#id-error3').css('color', 'red');
                             $('#id-error3').show();
+                            flagEmail = false;
                         }
                     },
-                    error: function (a, b, c) {
+                    error: function () {
                         console.log('예외 발생');
                     }
                 });
             });
 
             $('[name=email]').change(function () {
-                flag2 = false;
+                flagEmail = false;
             });
         </script>
+
         </body>

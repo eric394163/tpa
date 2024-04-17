@@ -18,6 +18,7 @@ public class UserServiceImp implements UserService {
     @Autowired
     UserDAO userDAO;
 
+    // 로그인
     @Override
     public UserVO login(LoginDTO loginDTO) {
         // 매개변수 null 처리
@@ -28,7 +29,7 @@ public class UserServiceImp implements UserService {
         String i_Id = loginDTO.getId();
 
         // 아이디 확인
-        UserVO user = userDAO.selectUser(i_Id);
+        UserVO user = userDAO.selectUserById(i_Id);
         if (user == null) {
             return null;
         }
@@ -40,36 +41,34 @@ public class UserServiceImp implements UserService {
 
     }
 
+
+    // 회원가입
     @SuppressWarnings("null")
     @Override
     public boolean signup(SignupDTO signupDTO) {
 
-        if (signupDTO == null) {
+        if (signupDTO == null || signupDTO.getPw() == null || signupDTO.getPw().isEmpty()) {
             return false;
         }
 
-        String i_id = signupDTO.getId();
-        // 아이디 중복 확인
-        UserVO user = userDAO.selectUser(i_id);
-
-        System.out.println("user : " + user);
-
-        // 이미 가입된 아이디
-        if (user != null) {
+        UserVO existingUser = userDAO.selectUserById(signupDTO.getId());
+        if (existingUser != null) {
             return false;
         }
 
-        // 빈 문자열도 암호화를 적용하면 빈문자열이 아니기 때문에 가입이 될 수 있어서 처리
-        if (user.getUser_pw() == null || user.getUser_pw().length() == 0) {
-            return false;
-        }
+        String encryptedPassword = passwordEncoder.encode(signupDTO.getPw());
 
-        // 비밀번호 암호화
-        String encodePw = passwordEncoder.encode(user.getUser_pw());
-
-        user.setUser_pw(encodePw);
+        UserVO newUser = new UserVO();
+        newUser.setUser_id(signupDTO.getId());
+        newUser.setUser_email(signupDTO.getEmail());
+        newUser.setUser_nickname(signupDTO.getNickname());
+        newUser.setUser_pw(encryptedPassword);
+        // newUser.setUser_imgUrl(signupDTO.getImgUrl());
+        // newUser.setUser_state("사용중");
+        // newUser.setUser_role("사용자");
+        // newUser.setUser_content("");
         try {
-            return userDAO.insertMember(user);
+            return userDAO.insertUser(newUser);
         } catch (Exception e) {
 
             e.printStackTrace();
@@ -77,9 +76,22 @@ public class UserServiceImp implements UserService {
         }
     }
 
+
+    // 아이디 중복확인
     @Override
     public boolean checkId(String id) {
-        UserVO user = userDAO.selectUser(id);
+        UserVO user = userDAO.selectUserById(id);
+        if (user != null) {
+            return false;
+        }
+        return true;
+
+    }
+
+    // 이메일 중복확인
+    @Override
+    public boolean checkEmail(String email) {
+        UserVO user = userDAO.selectUserByEmail(email);
         if (user != null) {
             return false;
         }

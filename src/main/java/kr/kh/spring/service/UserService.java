@@ -15,4 +15,6 @@ public interface UserService {
 
     boolean checkId(String id);
 
+    boolean checkEmail(String email);
+
 }
