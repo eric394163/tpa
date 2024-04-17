@@ -16,6 +16,14 @@
                 background: #fff;
             }
 
+            #footer .row {
+                display: flex;
+                flex-wrap: nowrap;
+                /* Prevents wrapping of footer items */
+                align-items: stretch;
+                /* Aligns items vertically */
+            }
+
             #footer .footer-top .footer-contact {
                 margin-bottom: 30px;
             }
@@ -91,26 +99,6 @@
                 color: #444444;
             }
 
-            #footer .social-links a {
-                font-size: 18px;
-                display: inline-block;
-                background: #2487ce;
-                color: #fff;
-                line-height: 1;
-                padding: 8px 0;
-                margin-right: 4px;
-                border-radius: 5px;
-                text-align: center;
-                width: 36px;
-                height: 36px;
-                transition: 0.3s;
-            }
-
-            #footer .social-links a:hover {
-                background: #3194db;
-                color: #fff;
-                text-decoration: none;
-            }
         </style>
         <footer id="footer">
 
