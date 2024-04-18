@@ -1,95 +1,155 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<head>
+    <style>
+        .container {
+            padding: 2px 16px;
+        }
 
-        <head>
-            <style>
-                .theme-card {
-                    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-                    transition: 0.3s;
-                    width: 40%;
-                    border-radius: 5px;
-                    display: inline-block;
-                    margin: 16px;
-                }
+        .search-box {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
 
-                .theme-card:hover {
-                    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
-                }
-
-                .container {
-                    padding: 2px 16px;
-                }
-
-                .theme-image {
-                    width: 100%;
-                    border-top-left-radius: 5px;
-                    border-top-right-radius: 5px;
-                    height: auto;
-                }
-
-                .theme-name {
-                    font-size: 22px;
-                    color: #333;
-                }
-
-                .button {
-                    background-color: #ffffff;
-                    /* Green */
-                    border: none;
-                    color: rgb(0, 0, 0);
-                    padding: 6px 16px;
-                    text-align: center;
-
-                    text-decoration: none;
-                    display: inline-block;
-                    font-size: 16px;
-                    margin: 4px 2px;
-                    cursor: pointer;
-                    border-radius: 10px;
-                    border: 1px solid #333;
-
-                }
-
-                .select-button {
-                    text-align: center;
-                }
-
-                @media (max-width: 767px) {
-                    .box-container {
-                        flex-direction: column;
-                        align-items: center;
-                    }
-
-                    .theme-card {
-                        width: 80%;
-                        /* Larger percentage for smaller screens */
-                    }
-                }
-
-                .box-container {
-                    display: flex;
-                    justify-content: space-between;
-                    align-items: center;
-                    align-content: center;
-                }
-            </style>
-        </head>
-
-        <body>
-            <div class="container mt-4">
-                <h2 style="text-align: center;"><span
-                        style="border: #333 solid 1px; border-radius: 10px; padding: 5px">지역 선택</span></h2>
-            </div>
+        html,
+        body {
+            position: relative;
+            height: 100%;
+        }
 
 
-            <div class="row">
-                <div class="col-2"></div>
-                <div class="col-8">
-                    <hr>
+        .swiper {
+            width: 100%;
+            height: 100%;
+        }
 
+        .swiper-slide {
+            text-align: center;
+            font-size: 18px;
+            background: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .swiper-slide img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .swiper-slide p {
+            text-align: left;
+
+            color: #333;
+
+            font-size: 16px;
+
+            margin-top: 10px;
+
+        }
+    </style>
+
+</head>
+
+<body>
+    <div class="container mt-4">
+        <h2 style="text-align: center;"><span style="border: #333 solid 1px; border-radius: 10px; padding: 5px">지역
+                선택</span></h2>
+    </div>
+
+
+    <div class="row">
+        <div class="col-2"></div>
+        <div class="col-8">
+            <hr>
+            <div class="search-box mb-3">
+                <div>
+                    <input type="text" class="search-txt" placeholder="지역을 검색하세요">
+                    <button class="search-btn">검색</button>
+                    </button>
                 </div>
-                <div class="col-2"></div>
+            </div>
+            <h3 style="margin-bottom: 13px;">서울</h3>
+            <hr>
+            <div style="display: flex; justify-content: center;">
+                <div class="swiper-container" style="width: 100%; height: 300px; display: flex;">
+                    <div class="swiper-wrapper" style="display: flex; width: 200px; height: 200px; margin-right: 35px;">
+                        <div class="swiper-slide">
+                            <a href=""><img
+                                    src="https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyNDA0MTBfMTMz%2FMDAxNzEyNzQyNzg1MDQ3.Y3udD2ZH9e5eUmcZCYfp2di2YB8-iwhjvJfI1lgXHtIg.MNLXXeuwacNw1t1YlCT88fm1Pbs1VaH9gV7owqr15Jog.JPEG%2F121_3395.jpg%233206x2149&type=ff192_192"
+                                    alt="서울">
+                                <p>서울</p>
+                            </a>
+                        </div>
+                        <div class="swiper-slide">
+                            <a href=""><img
+                                    src="https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyNDA0MTBfMTMz%2FMDAxNzEyNzQyNzg1MDQ3.Y3udD2ZH9e5eUmcZCYfp2di2YB8-iwhjvJfI1lgXHtIg.MNLXXeuwacNw1t1YlCT88fm1Pbs1VaH9gV7owqr15Jog.JPEG%2F121_3395.jpg%233206x2149&type=ff192_192"
+                                    alt="서울">
+                                <p>서울</p>
+                            </a>
+                        </div>
+                        <div class="swiper-slide">
+                            <a href=""><img
+                                    src="https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyNDA0MTBfMTMz%2FMDAxNzEyNzQyNzg1MDQ3.Y3udD2ZH9e5eUmcZCYfp2di2YB8-iwhjvJfI1lgXHtIg.MNLXXeuwacNw1t1YlCT88fm1Pbs1VaH9gV7owqr15Jog.JPEG%2F121_3395.jpg%233206x2149&type=ff192_192"
+                                    alt="서울">
+                                <p>서울</p>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="swiper-pagination"></div>
+                </div>
+            </div>
+
+            <h3 style="margin-bottom: 13px;">경기</h3>
+            <hr>
+            <div style="display: flex; justify-content: center;">
+                <div class="swiper-container" style="width: 100%; height: 300px; display: flex;">
+                    <div class="swiper-wrapper" style="display: flex; width: 200px; height: 200px; margin-right: 35px;">
+                        <div class="swiper-slide">
+                            <a href=""><img
+                                    src="https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyNDA0MTBfMTMz%2FMDAxNzEyNzQyNzg1MDQ3.Y3udD2ZH9e5eUmcZCYfp2di2YB8-iwhjvJfI1lgXHtIg.MNLXXeuwacNw1t1YlCT88fm1Pbs1VaH9gV7owqr15Jog.JPEG%2F121_3395.jpg%233206x2149&type=ff192_192"
+                                    alt="서울">
+                                <p>서울</p>
+                            </a>
+
+                        </div>
+                        <div class="swiper-slide">
+                            <a href=""><img
+                                    src="https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyNDA0MTBfMTMz%2FMDAxNzEyNzQyNzg1MDQ3.Y3udD2ZH9e5eUmcZCYfp2di2YB8-iwhjvJfI1lgXHtIg.MNLXXeuwacNw1t1YlCT88fm1Pbs1VaH9gV7owqr15Jog.JPEG%2F121_3395.jpg%233206x2149&type=ff192_192"
+                                    alt="서울">
+                                <p>서울</p>
+                            </a>
+                        </div>
+                        <div class="swiper-slide">
+                            <a href=""><img
+                                    src="https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyNDA0MTBfMTMz%2FMDAxNzEyNzQyNzg1MDQ3.Y3udD2ZH9e5eUmcZCYfp2di2YB8-iwhjvJfI1lgXHtIg.MNLXXeuwacNw1t1YlCT88fm1Pbs1VaH9gV7owqr15Jog.JPEG%2F121_3395.jpg%233206x2149&type=ff192_192"
+                                    alt="서울">
+                                <p>서울</p>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="swiper-pagination"></div>
+                </div>
             </div>
 
 
-        </body>
+
+        </div>
+        <div class="col-2"></div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+    <script>
+        var swiper = new Swiper(".swiper-container", {
+            slidesPerView: 5,
+            spaceBetween: 30,
+            pagination: {
+                el: ".swiper-pagination",
+                clickable: true,
+            },
+        });
+    </script>
+
+</body>
