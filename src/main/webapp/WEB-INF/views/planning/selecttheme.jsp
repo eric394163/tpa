@@ -65,6 +65,13 @@
                         /* Larger percentage for smaller screens */
                     }
                 }
+
+                .box-container {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    align-content: center;
+                }
             </style>
         </head>
 
@@ -84,9 +91,43 @@
                 <div class="col-8">
                     <hr>
                     <div class="box-container mt-3" style="display: flex;">
-                        <c:forEach items="${themeList}" var="theme">
+                        <c:forEach items="${themeList}" var="theme" begin="0" end="2">
                             <div class="theme-card">
-                                <img src="<c:url value='${theme.theme_imgUrl}'/>" alt="${theme.theme_name}"
+                                <img src="<c:url value='${theme.theme_imgUrl}'/>" width="100%" alt="${theme.theme_name}"
+                                    class="theme-image">
+                                <div class="container">
+                                    <h4 class="theme-name"><b>${theme.theme_name}</b></h4>
+                                    <div class="select-button">
+                                        <c:url var="url" value="/planning/selectregion">
+                                            <c:param name="theme_NUM" value="${theme.theme_NUM}" />
+                                        </c:url>
+                                        <a href="${url}" class="button">선택하기</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </c:forEach>
+                    </div>
+                    <div class="box-container mt-3" style="display: flex;">
+                        <c:forEach items="${themeList}" var="theme" begin="3" end="5">
+                            <div class="theme-card">
+                                <img src="<c:url value='${theme.theme_imgUrl}'/>" width="100%" alt="${theme.theme_name}"
+                                    class="theme-image">
+                                <div class="container">
+                                    <h4 class="theme-name"><b>${theme.theme_name}</b></h4>
+                                    <div class="select-button">
+                                        <c:url var="url" value="/planning/selectregion">
+                                            <c:param name="theme_NUM" value="${theme.theme_NUM}" />
+                                        </c:url>
+                                        <a href="${url}" class="button">선택하기</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </c:forEach>
+                    </div>
+                    <div class="box-container mt-3" style="display: flex;">
+                        <c:forEach items="${themeList}" var="theme" begin="6" end="8">
+                            <div class="theme-card">
+                                <img src="<c:url value='${theme.theme_imgUrl}'/>" width="100%" alt="${theme.theme_name}"
                                     class="theme-image">
                                 <div class="container">
                                     <h4 class="theme-name"><b>${theme.theme_name}</b></h4>
