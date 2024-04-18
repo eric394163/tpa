@@ -84,6 +84,17 @@
                 background-color: #000000;
                 text-decoration: none;
             }
+
+            .header-hr {
+                border: none;
+                /* 기본 테두리 제거 */
+                height: 1px;
+                /* 줄 높이 설정 */
+                background-color: #ccc;
+                /* 줄의 색상 설정 */
+                box-shadow: 2px 2px 4px #888888;
+                /* 그림자 효과 추가 */
+            }
         </style>
 
         <div class="container d-flex align-items-center justify-content-between ">
@@ -104,3 +115,4 @@
                 </ul>
             </nav>
         </div>
+        <hr class="header-hr">
