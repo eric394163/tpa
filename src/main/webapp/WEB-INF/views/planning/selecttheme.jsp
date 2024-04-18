@@ -82,13 +82,18 @@
                         선택</span></h2>
             </div>
 
+<<<<<<< HEAD
 
+=======
+            <hr>
+>>>>>>> develop
 
             <div class="row">
                 <div class="col-2">
                     ${themeList}
                 </div>
                 <div class="col-8">
+<<<<<<< HEAD
                     <hr>
                     <div class="box-container mt-3" style="display: flex;">
                         <c:forEach items="${themeList}" var="theme" begin="0" end="2">
@@ -140,6 +145,39 @@
                                 </div>
                             </div>
                         </c:forEach>
+=======
+                    <div class="box-container" style="display: flex;">
+                        <div class="theme-card">
+                            <img src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg"
+                                alt="Theme Name" class="theme-image">
+                            <div class="container">
+                                <h4 class="theme-name"><b>Theme Name</b></h4>
+                                <div class="select-button">
+                                    <a href="#" class="button">선택하기</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="theme-card">
+                            <img src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg"
+                                alt="Theme Name" class="theme-image">
+                            <div class="container">
+                                <h4 class="theme-name"><b>Theme Name</b></h4>
+                                <div class="select-button">
+                                    <a href="#" class="button">선택하기</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="theme-card">
+                            <img src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg"
+                                alt="Theme Name" class="theme-image">
+                            <div class="container">
+                                <h4 class="theme-name"><b>Theme Name</b></h4>
+                                <div class="select-button">
+                                    <a href="#" class="button">선택하기</a>
+                                </div>
+                            </div>
+                        </div>
+>>>>>>> develop
                     </div>
                 </div>
                 <div class="col-2">
