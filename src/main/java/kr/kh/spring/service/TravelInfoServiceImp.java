@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import kr.kh.spring.dao.TravelInfoDAO;
+import kr.kh.spring.model.vo.RegionVO;
 import kr.kh.spring.model.vo.ThemeVO;
 
 @Service
@@ -22,6 +23,16 @@ public class TravelInfoServiceImp implements TravelInfoService {
 
         return travelInfoDAO.selectThemeList();
 
+    }
+
+
+    @Override
+    public ArrayList<RegionVO> getRegionList(int theme_NUM) {
+        if(theme_NUM==0){
+            return null;
+        }
+
+        return travelInfoDAO.selectRegionList(theme_NUM);
     }
 
 }

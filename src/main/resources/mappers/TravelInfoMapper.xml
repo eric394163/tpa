@@ -8,6 +8,12 @@
         SELECT * FROM theme 
     </select>
     <!-- ============ 테마 끝 ============ -->
+    <!-- =========== 지역 시작 =========== -->
+    ArrayList<RegionVO> selectRegionList(@Param("theme_NUM") int theme_NUM);
+        <select id="selectRegionList" resultType="kr.kh.spring.model.vo.RegionVO">
+            SELECT * FROM region WHERE theme_NUM = #{theme_NUM}
+        </select>
+    <!-- ============ 지역 끝 ============ -->
 </mapper>
 <!-- 
 마이바티스 컨피그에서 매퍼 얼라이어스를 설정해줘서 리저트타입을 단축시킴 -->
