@@ -10,4 +10,5 @@ public class RegionVO {
     private String region_do;
     private String region_name;
     private String region_imgUrl;
+    private String region_division_NUM;
 }

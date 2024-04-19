@@ -11,16 +11,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import kr.kh.spring.model.vo.DivisionVO;
 import kr.kh.spring.model.vo.ThemeVO;
+
 import kr.kh.spring.service.TravelInfoService;
+import lombok.extern.log4j.Log4j;
+import lombok.extern.log4j.Log4j2;
 
 @Controller
-public class PlanningController {  
+public class PlanningController {
 
     @Autowired
     TravelInfoService travelInfo_s;
 
-    // =================경로 관리 시작=================
 
     @RequestMapping(value = "/planning/selecttheme", method = RequestMethod.GET)
     public String themeList(Model model) {
@@ -31,16 +34,20 @@ public class PlanningController {
         return "/planning/selecttheme";
     }
 
-    @GetMapping("/selectregion")
-    public String selectregion(@RequestParam("theme_NUM") int themeNum, Model model) {
-        // You can now use themeNum in your method
-        model.addAttribute("selectedThemeNum", themeNum);
+    // - 함수명 : selectregion
+    // - 매개변수 : int theme_NUM, Model model
+    // - 기능 : 테마에 따른 지역을 선택하는 페이지로 이동한다.
+    // - 상세기능 : 테마가 없으면 필터링 없이 불러옴
+    //             테마가 있으면 테마에 따른 지역을 불러옴
+    @GetMapping("/planning/selectregion")
+    public String selectregion(@RequestParam("theme_NUM") int theme_NUM, Model model) {
 
-        
+        ArrayList<DivisionVO> divisionList = travelInfo_s.getDivision_Region(theme_NUM);
 
-        return "planning/selectregion"; 
+        model.addAttribute("divisionList", divisionList);
+
+        return "/planning/selectregion";
     }
 
-    // =================경로 관리 끝=================
 
 }
