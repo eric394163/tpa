@@ -7,16 +7,25 @@
     <select id="selectThemeList" resultType="kr.kh.spring.model.vo.ThemeVO">
         SELECT * FROM theme 
     </select>
-    <!-- ============ 테마 끝 ============ -->
     <!-- =========== 지역 시작 =========== -->
-    <select id="selectRegionList" resultType="kr.kh.spring.model.vo.RegionVO">
-            SELECT * FROM region WHERE region_division_NUM = #{division_NUM}
+    <resultMap type="kr.kh.spring.model.vo.DivisionVO" id="DivisionMap">
+        <id property="division_NUM" column="division_NUM"/> 
+        <result property="division_name" column="division_name"/> 
+        <collection property="regionList" ofType="kr.kh.spring.model.vo.regionVO"
+			column="division_NUM" select="selectDivision_Region"/> 
+    </resultMap>
+    <!-- id: selectDivisionList -->
+    <!-- 기능: 지역 리스트를 조회하는 쿼리 -->
+    <select id="selectDivisionList" resultMap="DivisionMap">
+        SELECT * FROM division
+        
+    </select>
+    <!-- id: selectDivision_Region -->
+    <!-- 기능: 지역에 해당하는 지역 리스트를 조회하는 쿼리 -->
+    <select id="selectDivision_Region" resultType="kr.kh.spring.model.vo.RegionVO">
+        SELECT * FROM region WHERE region_division_NUM = #{division_NUM}
     </select>
 
-    <select id="selectTotalDivisionCount" resultType="int"> 
-        SELECT COUNT(*) FROM division
-
-    </select>
     <!-- ============ 지역 끝 ============ -->
 </mapper>
 <!-- 

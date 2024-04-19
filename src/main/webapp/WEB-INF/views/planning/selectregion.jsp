@@ -70,24 +70,27 @@
                             </button>
                         </div>
                     </div>
-                    <h3 style="margin-bottom: 13px;">서울</h3>
-                    <hr>
-                    <div style="display: flex; justify-content: center;">
-                        <div class="swiper-container" style="width: 100%; height: 300px; display: flex;">
-                            <c:forEach var="region" items="${regionLists[0]}">
-                                <div class="swiper-wrapper"
-                                    style="display: flex; width: 200px; height: 200px; margin-right: 35px;">
-                                    <div class="swiper-slide">
-                                        <a href="<c:url value='/planning/selectstart'/>"><img
-                                                src="<c:url value='${region.region_imgUrl}'/>" alt="서울">
-                                            <p>${region.region_name}</p>
-                                        </a>
+                    <c:forEach var="division" items="${divisionList}">
+                        <h3 style="margin-bottom: 13px;">${division.division_name}</h3>
+                        <hr>
+                        <div style="display: flex; justify-content: center;">
+                            <div class="swiper-container" style="width: 100%; height: 200px; display: flex;">
+                                <c:forEach var="region" items="${division.regionList}">
+                                    <div class="swiper-wrapper"
+                                        style="display: flex; width: 200px; height: 200px; margin-right: 35px;">
+                                        <div class="swiper-slide">
+                                            <a href="<c:url value='/planning/selectstart'/>"><img
+                                                    src="<c:url value='${region.region_imgUrl}'/>" alt="서울">
+                                                <p>${region.region_name}</p>
+                                            </a>
+                                        </div>
                                     </div>
-                                </div>
-                            </c:forEach>
-                            <div class="swiper-pagination"></div>
+                                </c:forEach>
+                                <div class="swiper-pagination"></div>
+                            </div>
                         </div>
-                    </div>
+                    </c:forEach>
+ 
                 </div>
                 <div class="col-2"></div>
             </div>

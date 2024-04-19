@@ -2,8 +2,6 @@
 package kr.kh.spring.controller;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import kr.kh.spring.model.vo.RegionVO;
+import kr.kh.spring.model.vo.DivisionVO;
 import kr.kh.spring.model.vo.ThemeVO;
 
 import kr.kh.spring.service.TravelInfoService;
@@ -38,12 +36,9 @@ public class PlanningController {
     @GetMapping("/planning/selectregion")
     public String selectregion(@RequestParam("theme_NUM") int theme_NUM, Model model) {
 
-        Map<Integer, List<RegionVO>> mapDivision_Region = travelInfo_s.getDivision_Region();
-        ArrayList<List<RegionVO>> regionLists = new ArrayList<>();
-        for (int i = 0; i < mapDivision_Region.size(); i++) {
-            regionLists.add(i, mapDivision_Region.get(i + 1));
-        }
-        model.addAttribute("regionLists", regionLists);
+        ArrayList<DivisionVO> divisionList = travelInfo_s.getDivision_Region();
+
+        model.addAttribute("divisionList", divisionList);
 
         return "/planning/selectregion";
     }
