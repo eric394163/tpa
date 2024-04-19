@@ -15,8 +15,6 @@ import kr.kh.spring.model.vo.DivisionVO;
 import kr.kh.spring.model.vo.ThemeVO;
 
 import kr.kh.spring.service.TravelInfoService;
-import lombok.extern.log4j.Log4j;
-import lombok.extern.log4j.Log4j2;
 
 @Controller
 public class PlanningController {
@@ -49,5 +47,12 @@ public class PlanningController {
         return "/planning/selectregion";
     }
 
+    @GetMapping("/planning/selectdate")
+    public String selectStart(@RequestParam("region_NUM") int region_NUM, Model model) {
 
+        return "/planning/selectdate";
+    }
+
+
+    
 }

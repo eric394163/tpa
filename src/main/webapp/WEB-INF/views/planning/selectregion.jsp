@@ -78,8 +78,11 @@
                                     <div class="swiper-wrapper"
                                         style="display: flex; width: 200px; height: 200px; margin-right: 35px;">
                                         <div class="swiper-slide">
-                                            <a href="<c:url value='/planning/selectstart'/>"><img
-                                                    src="<c:url value='${region.region_imgUrl}'/>" alt="서울">
+                                            <c:url var="url" value="/planning/selectdate">
+                                                <c:param name="region_NUM" value="${region.region_NUM}" />
+                                            </c:url>
+                                            <a href="${url}"><img src="<c:url value='${region.region_imgUrl}'/>"
+                                                    alt="서울">
                                                 <p>${region.region_name}</p>
                                             </a>
                                         </div>
