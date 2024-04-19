@@ -67,7 +67,6 @@
                         <div>
                             <input type="text" class="search-txt" placeholder="지역을 검색하세요">
                             <button class="search-btn">검색</button>
-                            </button>
                         </div>
                     </div>
                     <c:forEach var="division" items="${divisionList}">
@@ -90,15 +89,31 @@
                             </div>
                         </div>
                     </c:forEach>
- 
+
                 </div>
                 <div class="col-2"></div>
             </div>
-            ${regionLists[0]}
+
 
             <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
             <script>
+                function filterRegions() {
+                    var input = document.querySelector('.search-txt').value.toLowerCase();
+                    var regions = document.querySelectorAll('.swiper-slide');
+
+                    regions.forEach(function (region) {
+                        var regionName = region.querySelector('p').textContent.toLowerCase();
+                        if (regionName.includes(input)) {
+                            region.style.display = '';
+                        } else {
+                            region.style.display = 'none';
+                        }
+                    });
+                }
+
+                document.querySelector('.search-txt').addEventListener('input', filterRegions);
+
                 var swiper = new Swiper(".swiper-container", {
                     slidesPerView: 5,
                     spaceBetween: 30,

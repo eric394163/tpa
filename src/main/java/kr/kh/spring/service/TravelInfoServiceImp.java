@@ -28,12 +28,17 @@ public class TravelInfoServiceImp implements TravelInfoService {
         return travelInfoDAO.selectThemeList();
 
     }
-
+    
+    // - 함수명 : getDivision_Region
+    // - 매개변수 : int theme_NUM
+    // - 기능 : 테마에 따른 지역을 가져온다.
     @Override
     public ArrayList<DivisionVO> getDivision_Region(int theme_NUM) {
+        if (theme_NUM == 0) {
+            return null;
+        }
 
         return travelInfoDAO.selectDivisionList(theme_NUM);
     }
-
 
 }
