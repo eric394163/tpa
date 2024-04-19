@@ -13,7 +13,7 @@ public interface TravelInfoService {
 
     ArrayList<ThemeVO> getThemeList();
 
-    ArrayList<DivisionVO> getDivision_Region();
+    ArrayList<DivisionVO> getDivision_Region(int theme_NUM);
 
     
 }

@@ -30,8 +30,9 @@ public class TravelInfoServiceImp implements TravelInfoService {
     }
 
     @Override
-    public ArrayList<DivisionVO> getDivision_Region() {
-        return travelInfoDAO.selectDivisionList();
+    public ArrayList<DivisionVO> getDivision_Region(int theme_NUM) {
+
+        return travelInfoDAO.selectDivisionList(theme_NUM);
     }
 
 

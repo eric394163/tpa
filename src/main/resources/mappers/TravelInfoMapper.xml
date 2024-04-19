@@ -9,23 +9,49 @@
     </select>
     <!-- =========== 지역 시작 =========== -->
     <resultMap type="kr.kh.spring.model.vo.DivisionVO" id="DivisionMap">
-        <id property="division_NUM" column="division_NUM"/> 
-        <result property="division_name" column="division_name"/> 
+        <id property="division_NUM" column="division_NUM"/>
+        <result property="division_name" column="division_name"/>
         <collection property="regionList" ofType="kr.kh.spring.model.vo.regionVO"
-			column="division_NUM" select="selectDivision_Region"/> 
+        column="{division_NUM=division_NUM, theme_NUM=theme_NUM}" select="selectDivision_Region"/>
     </resultMap>
     <!-- id: selectDivisionList -->
     <!-- 기능: 지역 리스트를 조회하는 쿼리 -->
-    <select id="selectDivisionList" resultMap="DivisionMap">
-        SELECT * FROM division
-        
+    <!-- 상세기능 : 테마번호를 받고 테마번호가 1이면 상위지역전체 선택 1이 아니면 지역테이블, 지역테마테이블 묶어서 테마번호에
+                   해당하는 지역이 있는 상위지역 번호를 조회함 -->
+    <select id="selectDivisionList" parameterType="int" resultMap="DivisionMap">
+        SELECT d.*, #{theme_NUM} as theme_NUM
+        FROM division d
+        WHERE #{theme_NUM} = 1 OR d.division_NUM IN (
+            SELECT r.region_division_NUM
+            FROM region r
+            JOIN themeregion tr ON r.region_NUM = tr.themeregion_region_NUM
+            WHERE tr.themeregion_theme_NUM = #{theme_NUM}
+        )
+        <!-- select division.* from division 
+        join region on region_division_NUM = division_NUM
+        join themeregion on themeregion_region_NUM = region_NUM
+        <if test='theme_NUM != 1'>
+            where themeregion_theme_NUM = #{theme_NUM}
+        </if> -->
     </select>
     <!-- id: selectDivision_Region -->
-    <!-- 기능: 지역에 해당하는 지역 리스트를 조회하는 쿼리 -->
-    <select id="selectDivision_Region" resultType="kr.kh.spring.model.vo.RegionVO">
-        SELECT * FROM region WHERE region_division_NUM = #{division_NUM}
+    <!-- 기능: 지역 리스트를 조회하는 쿼리 -->
+    <select id="selectDivision_Region" parameterType="map" resultType="kr.kh.spring.model.vo.RegionVO">
+        SELECT r.*
+        FROM region r
+        WHERE r.region_division_NUM = #{division_NUM} AND (
+            #{theme_NUM} = 1 OR r.region_NUM IN (
+                SELECT tr.themeregion_region_NUM
+                FROM themeregion tr
+                WHERE tr.themeregion_theme_NUM = #{theme_NUM}
+            )
+        )
+        <!-- select * from region 
+        join themeregion on themeregion_region_NUM = region_NUM
+        <if test='theme_NUM != 1'>
+            where themeregion_theme_NUM = #{theme_NUM} and region_division_NUM = #{division_NUM}
+        </if> -->
     </select>
-
     <!-- ============ 지역 끝 ============ -->
 </mapper>
 <!-- 
