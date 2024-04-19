@@ -1,6 +1,9 @@
 package kr.kh.spring.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,14 +28,20 @@ public class TravelInfoServiceImp implements TravelInfoService {
 
     }
 
-
     @Override
-    public ArrayList<RegionVO> getRegionList(int theme_NUM) {
-        if(theme_NUM==0){
-            return null;
+    public Map<Integer, List<RegionVO>> getDivision_Region() {
+        Map<Integer, List<RegionVO>> mapDivision_Region = new HashMap<Integer, List<RegionVO>>();
+
+        int division_NUM;
+
+        int totalDivisionCount = travelInfoDAO.selectTotalDivisionCount();
+
+        for (division_NUM = 1; division_NUM <= totalDivisionCount; division_NUM++) {
+            List<RegionVO> regionList = travelInfoDAO.selectRegionList(division_NUM);
+            mapDivision_Region.put(division_NUM, regionList);
         }
 
-        return travelInfoDAO.selectRegionList(theme_NUM);
+        return mapDivision_Region;
     }
 
 }

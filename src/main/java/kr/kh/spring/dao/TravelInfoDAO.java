@@ -12,6 +12,8 @@ public interface TravelInfoDAO {
     // 테마 관련 메서드
     ArrayList<ThemeVO> selectThemeList();
 
-    ArrayList<RegionVO> selectRegionList(@Param("theme_NUM") int theme_NUM);
+    ArrayList<RegionVO> selectRegionList(@Param("division_NUM") int division_NUM);
+
+    int selectTotalDivisionCount();
 
 }

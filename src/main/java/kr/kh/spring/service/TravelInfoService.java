@@ -1,6 +1,8 @@
 package kr.kh.spring.service;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
@@ -12,6 +14,7 @@ public interface TravelInfoService {
 
     ArrayList<ThemeVO> getThemeList();
 
-    ArrayList<RegionVO> getRegionList(int theme_NUM);
+
+    Map<Integer, List<RegionVO>> getDivision_Region();
     
 }

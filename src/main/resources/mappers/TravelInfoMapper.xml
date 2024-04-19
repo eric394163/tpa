@@ -9,10 +9,14 @@
     </select>
     <!-- ============ 테마 끝 ============ -->
     <!-- =========== 지역 시작 =========== -->
-    ArrayList<RegionVO> selectRegionList(@Param("theme_NUM") int theme_NUM);
-        <select id="selectRegionList" resultType="kr.kh.spring.model.vo.RegionVO">
-            SELECT * FROM region WHERE theme_NUM = #{theme_NUM}
-        </select>
+    <select id="selectRegionList" resultType="kr.kh.spring.model.vo.RegionVO">
+            SELECT * FROM region WHERE region_division_NUM = #{division_NUM}
+    </select>
+
+    <select id="selectTotalDivisionCount" resultType="int"> 
+        SELECT COUNT(*) FROM division
+
+    </select>
     <!-- ============ 지역 끝 ============ -->
 </mapper>
 <!-- 

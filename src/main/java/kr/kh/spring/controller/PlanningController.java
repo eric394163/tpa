@@ -2,6 +2,8 @@
 package kr.kh.spring.controller;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,11 +13,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import kr.kh.spring.model.vo.RegionVO;
 import kr.kh.spring.model.vo.ThemeVO;
+
 import kr.kh.spring.service.TravelInfoService;
 
 @Controller
-public class PlanningController {  
+public class PlanningController {
 
     @Autowired
     TravelInfoService travelInfo_s;
@@ -31,14 +35,17 @@ public class PlanningController {
         return "/planning/selecttheme";
     }
 
-    @GetMapping("/selectregion")
-    public String selectregion(@RequestParam("theme_NUM") int themeNum, Model model) {
-        // You can now use themeNum in your method
-        model.addAttribute("selectedThemeNum", themeNum);
+    @GetMapping("/planning/selectregion")
+    public String selectregion(@RequestParam("theme_NUM") int theme_NUM, Model model) {
 
-        
+        Map<Integer, List<RegionVO>> mapDivision_Region = travelInfo_s.getDivision_Region();
+        ArrayList<List<RegionVO>> regionLists = new ArrayList<>();
+        for (int i = 0; i < mapDivision_Region.size(); i++) {
+            regionLists.add(i, mapDivision_Region.get(i + 1));
+        }
+        model.addAttribute("regionLists", regionLists);
 
-        return "planning/selectregion"; 
+        return "/planning/selectregion";
     }
 
     // =================경로 관리 끝=================

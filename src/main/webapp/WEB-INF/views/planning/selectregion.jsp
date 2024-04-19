@@ -78,7 +78,8 @@
                                 <div class="swiper-wrapper"
                                     style="display: flex; width: 200px; height: 200px; margin-right: 35px;">
                                     <div class="swiper-slide">
-                                        <a href="<c:url value='/planning/selectstart'/>"><img src="<c:url value='${region.region_imgUrl}'/>" alt="서울">
+                                        <a href="<c:url value='/planning/selectstart'/>"><img
+                                                src="<c:url value='${region.region_imgUrl}'/>" alt="서울">
                                             <p>${region.region_name}</p>
                                         </a>
                                     </div>
@@ -90,6 +91,7 @@
                 </div>
                 <div class="col-2"></div>
             </div>
+            ${regionLists[0]}
 
             <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
