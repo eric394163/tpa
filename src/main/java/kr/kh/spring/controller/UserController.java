@@ -25,20 +25,10 @@ public class UserController {
     @Autowired
     UserService user_s;
 
-    // =================경로 관리 시작=================
     @GetMapping("/login")
     public String login(Model model) {
         return "/topnav/login";
     }
-
-    @GetMapping("/signup")
-    public String signUp(Model model) {
-        return "/topnav/signup";
-    }
-
-    // =================경로 관리 끝=================
-
-    // =================기능 관리 시작=================
 
     // - 함 수 명 : loginPost
     // - 기 능 : 로그인
@@ -57,6 +47,11 @@ public class UserController {
             model.addAttribute("msg", "로그인을 하지 못했습니다.");
         }
         return "message";
+    }
+
+    @GetMapping("/signup")
+    public String signUp(Model model) {
+        return "/topnav/signup";
     }
 
     // - 함 수 명 : signupPost
@@ -101,7 +96,7 @@ public class UserController {
 
     // - 함 수 명 : NicknameCheck
     // - 기 능 : 닉네임 중복체크
-    // - 파 라 미 터 : nickname 
+    // - 파 라 미 터 : nickname
     @PostMapping("/nickname/check")
     @ResponseBody
     public ResponseEntity<Map<String, Boolean>> NicknameCheck(@RequestParam String nickname) {

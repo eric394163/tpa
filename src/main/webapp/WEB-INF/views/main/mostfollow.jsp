@@ -18,7 +18,7 @@
 
 
         <style>
-            .container1 {
+            .container1-fluid {
                 border: 2px solid #000;
                 border-radius: 25px;
                 padding: 10px;
@@ -29,7 +29,7 @@
             }
         </style>
 
-        <div class="container1 mt-3">
+        <div class="container1-fluid mt-3">
             <div class="row">
                 <div class="col-3"> <!-- Content here -->
                     <a href="#" style="border: 1px solid black; border-radius: 10px; padding: 5px; ">

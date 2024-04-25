@@ -95,9 +95,18 @@
                 box-shadow: 2px 2px 4px #888888;
                 /* 그림자 효과 추가 */
             }
+
+            .logo {
+                margin-right: auto;
+            }
+
+            .container {
+                margin: 0px;
+
+            }
         </style>
 
-        <div class="container d-flex align-items-center justify-content-between ">
+        <div class="header-container-fluid d-flex align-items-center justify-content-between ">
             <a class="logo" href="<c:url value='/'/>">
                 <img src="<c:url value='/resources/images/logo/TRAVELPLANNINGASSISTANT_LOGO.jpg'/>"
                     style="width: 200px;">

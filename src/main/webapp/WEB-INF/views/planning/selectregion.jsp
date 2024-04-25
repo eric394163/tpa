@@ -52,7 +52,7 @@
 
 
         <body>
-            <div class="container mt-4">
+            <div class="container-fluid mt-4">
                 <h2 style="text-align: center;"><span
                         style="border: #333 solid 1px; border-radius: 10px; padding: 5px">지역
                         선택</span></h2>
@@ -73,13 +73,17 @@
                         <h3 style="margin-bottom: 13px;">${division.division_name}</h3>
                         <hr>
                         <div style="display: flex; justify-content: center;">
-                            <div class="swiper-container" style="width: 100%; height: 200px; display: flex;">
+                            <div class="swiper-container-fluid" style="width: 100%; height: 200px; display: flex;">
                                 <c:forEach var="region" items="${division.regionList}">
                                     <div class="swiper-wrapper"
                                         style="display: flex; width: 200px; height: 200px; margin-right: 35px;">
                                         <div class="swiper-slide">
-                                            <a href="<c:url value='/planning/selectstart'/>"><img
-                                                    src="<c:url value='${region.region_imgUrl}'/>" alt="서울">
+                                            <c:url var="url" value="/planning/selectdate">
+                                                <c:param name="region_NUM" value="${region.region_NUM}" />
+                                                <c:param name="theme_NUM" value="${theme_NUM}" />
+                                            </c:url>
+                                            <a href="${url}"><img src="<c:url value='${region.region_imgUrl}'/>"
+                                                    alt="서울">
                                                 <p>${region.region_name}</p>
                                             </a>
                                         </div>
