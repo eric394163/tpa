@@ -52,6 +52,7 @@
                     border-radius: 5px;
                     transition: 0.5s;
                     margin-top: 30px;
+                    margin-bottom: 30px;
                     color: #000000;
 
                     /* 배경 투명하게 하기 */
@@ -66,55 +67,6 @@
                     color: #ffffff;
                 }
 
-                #main .icon-boxes {
-                    margin-top: 100px;
-                }
-
-                #main .icon-box {
-                    padding: 50px 30px;
-                    position: relative;
-                    overflow: hidden;
-                    background: #fff;
-                    box-shadow: 0 0 29px 0 rgba(18, 66, 101, 0.08);
-                    transition: all 0.3s ease-in-out;
-                    border-radius: 8px;
-                    z-index: 1;
-                }
-
-                #main .icon-box .title {
-                    font-weight: 700;
-                    margin-bottom: 15px;
-                    font-size: 18px;
-                }
-
-                #main .icon-box .title a {
-                    color: #124265;
-                    transition: 0.3s;
-                }
-
-                #main .icon-box .description {
-                    font-size: 15px;
-                    line-height: 28px;
-                    margin-bottom: 0;
-                }
-
-                #main .icon-box .icon {
-                    margin-bottom: 20px;
-                    padding-top: 10px;
-                    display: inline-block;
-                    transition: all 0.3s ease-in-out;
-                    font-size: 36px;
-                    line-height: 1;
-                    color: #2487ce;
-                }
-
-                #main .icon-box:hover {
-                    transform: scale(1.08);
-                }
-
-                #main .icon-box:hover .title a {
-                    color: #2487ce;
-                }
 
                 @media (min-width: 1024px) {
                     #main {
@@ -148,15 +100,15 @@
         </head>
 
         <body>
-            <section id="main" class="d-flex mt-4">
-                <div class="container position-relative" data-aos="fade-up" data-aos-delay="100">
+            <section id="main" class="d-flex">
+                <div class="container-fluid position-relative" data-aos="fade-up" data-aos-delay="100">
                     <div class="row justify-content-center">
                         <div class="col-xl-7 col-lg-9 text-center">
                             <h1>TRAVEL PLANNING</h1>
                             <h1>ASSISTANT</h1>
                         </div>
                     </div>
-                    <div class="text-center">
+                    <div class="text-center ">
                         <a href="<c:url value='/planning/selecttheme'/>" class="btn-get-started scrollto">일정 만들기</a>
                     </div>
 

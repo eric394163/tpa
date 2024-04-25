@@ -76,7 +76,7 @@
         </head>
 
         <body>
-            <div class="container mt-4">
+            <div class="container-fluid mt-4">
                 <h2 style="text-align: center;"><span
                         style="border: #333 solid 1px; border-radius: 10px; padding: 5px">테마
                         선택</span></h2>
@@ -85,7 +85,7 @@
 
             <div class="row">
                 <div class="col-2">
-                    ${themeList}
+
                 </div>
                 <div class="col-8">
                     <hr>

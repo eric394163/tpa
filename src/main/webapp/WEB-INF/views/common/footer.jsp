@@ -12,7 +12,7 @@
             }
 
             #footer .footer-top {
-                padding: 60px 0 30px 0;
+                padding: 10px 0 10px 0;
                 background: #fff;
             }
 
@@ -98,12 +98,11 @@
                 font-size: 13px;
                 color: #444444;
             }
-
         </style>
         <footer id="footer">
 
             <div class="footer-top">
-                <div class="container">
+                <div class="container-fluid">
                     <div class="row">
                         <div class="col-lg-4  footer-contact">
                             <h3>TPA</h3>
@@ -142,7 +141,7 @@
                 </div>
             </div>
 
-            <div class="container">
+            <div class="container-fluid">
                 <div class="me-md-auto text-center text-md-start">
                     <div class="copyright">
                         &copy; Copyright <strong><span>TPA</span></strong>. All Rights Reserved
