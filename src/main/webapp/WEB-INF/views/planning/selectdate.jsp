@@ -133,7 +133,7 @@
                         </div>
                         <button id="nextMonth">&#62;</button>
                     </div>
-                    <form id="dateForm" action="<c:url value='/selectdate'/>" method="post">
+                    <form id="dateForm" action="<c:url value='/planning/selectstart'/>" method="post">
                         <input type="hidden" id="startDate" name="startDate">
                         <input type="hidden" id="endDate" name="endDate">
                         <input type="hidden" name="region_NUM" value="${region_NUM}">

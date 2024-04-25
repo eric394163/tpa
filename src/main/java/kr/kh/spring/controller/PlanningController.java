@@ -57,8 +57,8 @@ public class PlanningController {
         return "/planning/selectdate";
     }
 
-    @PostMapping("/selectdate")
-    public String selectdatePost(Model model, @RequestParam("startDate") String schedule_startDate,
+    @PostMapping("/planning/selectstart")
+    public String selectstartPost(Model model, @RequestParam("startDate") String schedule_startDate,
             @RequestParam("endDate") String schedule_endDate,
             int region_NUM, int theme_NUM) {
         model.addAttribute("start_date", schedule_startDate);
@@ -66,20 +66,8 @@ public class PlanningController {
         model.addAttribute("region_NUM", region_NUM);
         model.addAttribute("theme_NUM", theme_NUM);
 
-        return "redirect:/planning/selectstart";
+        return "/planning/selectstart";
     }
 
-    @GetMapping("/planning/selectstart")
-    public String selectStart(int region_NUM, int theme_NUM, Model model, @RequestParam("start_date") String start_date,
-            @RequestParam("end_date") String end_date) {
-        model.addAttribute("regionNum", region_NUM);
-        model.addAttribute("themeNum", theme_NUM);
-        model.addAttribute("startDate", start_date);
-        model.addAttribute("endDate", end_date);
-
-   
-
-        return "planning/selectstart";
-    }
 
 }
