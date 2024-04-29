@@ -32,6 +32,7 @@
                         margin: 0;
                         padding: 0;
                         min-width: 1000px;
+                        height: 100%;
                     }
 
                     h1,

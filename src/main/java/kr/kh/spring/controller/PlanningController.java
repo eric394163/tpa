@@ -61,13 +61,33 @@ public class PlanningController {
     public String selectstartPost(Model model, @RequestParam("startDate") String schedule_startDate,
             @RequestParam("endDate") String schedule_endDate,
             int region_NUM, int theme_NUM) {
-        model.addAttribute("start_date", schedule_startDate);
-        model.addAttribute("end_date", schedule_endDate);
-        model.addAttribute("region_NUM", region_NUM);
-        model.addAttribute("theme_NUM", theme_NUM);
+        model.addAttribute("startDate", schedule_startDate);
+        model.addAttribute("endDate", schedule_endDate);
+        model.addAttribute("regionNum", region_NUM);
+        model.addAttribute("themeNum", theme_NUM);
 
         return "/planning/selectstart";
     }
 
+    @PostMapping("/planning/selectplace")
+    public String selectplacePost(Model model,
+            @RequestParam("startDate") String schedule_startDate,
+            @RequestParam("endDate") String schedule_endDate,
+            @RequestParam("regionNum") int region_NUM,
+            @RequestParam("themeNum") int theme_NUM,
+            @RequestParam("startPlaceId") String startPlaceId,
+            @RequestParam("startPlaceLat") String startPlaceLat,
+            @RequestParam("startPlaceLng") String startPlaceLng) {
+
+        model.addAttribute("startDate", schedule_startDate);
+        model.addAttribute("endDate", schedule_endDate);
+        model.addAttribute("regionNum", region_NUM);
+        model.addAttribute("themeNum", theme_NUM);
+        model.addAttribute("startPlaceId", startPlaceId);
+        model.addAttribute("startPlaceLat", startPlaceLat);
+        model.addAttribute("startPlaceLng", startPlaceLng);
+
+        return "/planning/selectplace";
+    }
 
 }
