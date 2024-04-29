@@ -126,7 +126,7 @@
                             // displayPlaceDetails(results[0]);
                             map.setCenter(results[0].geometry.location);
                             createMarker(results[0]); // 마커 생성 함수 호출
-                            displayPlaceDetails(results[0]); // 상세 정보 표시
+                            // displayPlaceDetails(results[0]); // 상세 정보 표시
                         }
                     });
                 });
