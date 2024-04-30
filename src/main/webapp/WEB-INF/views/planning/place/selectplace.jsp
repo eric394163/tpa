@@ -120,13 +120,13 @@
                     </ul>
                     <div class="contents-wrap">
                         <div class="view-area">
-
+                            <!-- <jsp:include page="/WEB-INF/views/planning/place/selectplace.jsp" /> -->
                             <div style="display: flex; align-items: center; justify-content: center;">
-                                <button id="recommend-btn">추천</button>
-                                <button id="restaurant-btn">식당</button>
-                                <button id="room-btn">숙소</button>
-                                <button id="spot-btn">관광지</button>
-                                <button id="cafe-btn">카페</button>
+                                <button>추천</button>
+                                <button>식당</button>
+                                <button>숙소</button>
+                                <button>관광지</button>
+                                <button>카페</button>
                             </div>
                             <hr>
                             <div class="search-box mb-3 ">
@@ -135,12 +135,13 @@
                             </div>
                             <hr>
                             <div class="place-content-container">
-                                <div id="place-content">
+                                <div class="place-content">
 
                                 </div>
                             </div>
                         </div>
                         <div class="like-area">
+                            <!-- <jsp:include page="/WEB-INF/views/planning/add.jsp" /> -->
                         </div>
                     </div>
                 </div>
@@ -157,22 +158,6 @@
             </div>
             </div>
             </div>
-
-            <script type="text/javascript">
-                $("#btn").click(function () {
-                    $("#test").load("/spring/board/list2" + " #test")
-                });
-                function test() {
-                    $.ajax({
-                        url: "/spring/board/list2",
-                        success: function (data) {
-                            console.log(data);
-                            $("#test").html(data);
-                        }
-                    })
-                }
-                test();
-            </script>
 
             <script type="text/javascript">
                 //탭바처리 제이쿼리
