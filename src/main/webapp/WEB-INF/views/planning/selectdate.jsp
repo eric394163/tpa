@@ -226,7 +226,7 @@
 
                 function createCalendar(containerId, year, month) {
                     const container = document.getElementById(containerId);
-                    container.innerHTML = ''; // Clear previous content
+                    container.innerHTML = ''; 
 
                     const monthHeader = document.createElement('div');
                     monthHeader.className = 'month-header';
@@ -235,7 +235,6 @@
                     monthHeader.textContent = `\${monthNames[month - 1]} \${year}`;
                     container.appendChild(monthHeader);
 
-                    // Create a new container for weekdays and week rows
                     const calendarBody = document.createElement('div');
                     calendarBody.className = 'calendar-body';
 
@@ -267,7 +266,7 @@
                                 const dateCheck = new Date(year, month - 1, date);
                                 dayElement.textContent = date;
                                 dayElement.id = `day-\${year}-\${month}-\${date}`;
-                                if (dateCheck >= today) {
+                                if (dateCheck.setHours(0,0,0,0) >= today.setHours(0,0,0,0)) {
                                     dayElement.addEventListener('click', function () {
                                         selectDate(`\${year}-\${month}-\${this.textContent}`);
                                     });
