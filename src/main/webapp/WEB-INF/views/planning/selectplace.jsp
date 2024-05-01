@@ -96,7 +96,6 @@
         </head>
 
         <body>
-
             <div class="container-fluid mt-4">
                 <h2 style="text-align: center;"><span
                         style="border: #333 solid 1px; border-radius: 10px; padding: 5px">장소
@@ -119,7 +118,7 @@
                         <li><a href="#addplace">장소 추가</a></li>
                     </ul>
                     <div class="contents-wrap">
-                        <div class="view-area">
+                        <div class="select-place-area">
 
                             <div style="display: flex; align-items: center; justify-content: center;">
                                 <button id="recommend-btn">추천</button>
@@ -148,7 +147,12 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="like-area">
+                        <div class="add-place-area">
+                            <div class=" search-box mb-3 ">
+                                <input id=" place-add-search" type="text" placeholder="검색">
+                                <button id="submit-place-add-search">Search</button>
+                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -166,10 +170,9 @@
             </div>
             </div>
 
+            <!--타입 선택 스크립트-->
             <script>
                 $(document).ready(function () {
-
-
                     $("#recommend-btn, #restaurant-btn, #room-btn, #spot-btn, #cafe-btn").click(function () {
                         var type = $(this).text();
                         fetchPlaces(type);
@@ -196,6 +199,7 @@
                 });
             </script>
 
+            <!--장소 선택/추가 버튼 스트=크립트-->
             <script type="text/javascript">
                 //탭바처리 제이쿼리
                 $(".btn-area a").click(function () { //버튼 클릭
@@ -210,7 +214,39 @@
                 });
             </script>
 
+            <!-- 장소 검색 스크립트 -->
+            <script>
+                $(document).ready(function () {
+                    // 검색 버튼 클릭 이벤트 핸들러
+                    $("#submit-search").click(function (e) {
+                        e.preventDefault();  // 폼 제출을 막습니다.
 
+                        var search = $("#place-search").val(); // 입력 필드에서 검색어를 가져옵니다.
+                        if (!search) {
+                            alert("검색어를 입력하세요.");
+                            return; // 검색어가 없으면 종료
+                        }
+
+                        $.ajax({
+                            url: "/planning/searchplace", // 서버의 검색 API URL
+                            type: "GET",
+                            data: {
+                                query: search, // 데이터로 검색어를 전달
+                            },
+                            dataType: "html",
+                            success: function (data) {
+                                $("#place-content").html(data); // 성공 시 받은 데이터로 내용 업데이트
+                            },
+                            error: function (xhr, status, error) {
+                                console.error("검색 오류: " + error);
+                            }
+                        });
+                    });
+                });
+            </script>
+
+
+            <!--장소 보관함 스크립트-->
             <script>
                 document.addEventListener('DOMContentLoaded', function () {
                     const button = document.querySelector('.place-holder-btn');
@@ -226,10 +262,9 @@
                         }
                     });
                 });
-
             </script>
 
-
+            <!-- 지도 스크립트-->
             <script type="module">
 
                 let map;

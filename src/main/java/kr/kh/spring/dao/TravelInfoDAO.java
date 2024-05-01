@@ -22,4 +22,6 @@ public interface TravelInfoDAO {
     ArrayList<PlaceVO> selectPlaceByRegionAndThemeAndType(@Param("cri") PlaceCriteria cri);
     ArrayList<PlaceVO> selectPlaceByRegionAndThemeMost(@Param("cri") PlaceCriteria cri);
 
+    ArrayList<PlaceVO> selectPlaceBySearch(@Param("cri") PlaceCriteria cri);
+
 }

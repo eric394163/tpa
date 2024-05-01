@@ -18,6 +18,8 @@ public interface TravelInfoService {
 
     ArrayList<PlaceVO> getPlaceList(PlaceCriteria cri);
 
+    ArrayList<PlaceVO> getSearchPlaceList(PlaceCriteria cri);
+
     // int getPlaceTotalCount(PlaceCriteria cri);
 
     

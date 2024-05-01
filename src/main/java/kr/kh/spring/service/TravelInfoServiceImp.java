@@ -45,23 +45,28 @@ public class TravelInfoServiceImp implements TravelInfoService {
     @Override
     public ArrayList<PlaceVO> getPlaceList(PlaceCriteria cri) {
         if (cri.getTheme_NUM() == 0 && cri.getRegion_NUM() == 0 && cri.getPlacetypelist_NUM() == 0) {
-            System.out.println("blocked");
+           
             return null;
         }
         if (cri.getPlacetypelist_NUM() == -1) {
-            System.out.println("cri.getPlacetypelist_NUM() == -1");
+
             return travelInfoDAO.selectPlaceByRegionAndTheme(cri);
         }
         if (cri.getPlacetypelist_NUM() == 1) {
-            System.out.println("cri.getPlacetypelist_NUM() == 1");
+ 
             return travelInfoDAO.selectPlaceByRegionAndThemeMost(cri);
         } else {
-            System.out.println("2,3,4,5");
-            System.out.println(cri.getTheme_NUM());
-            System.out.println(cri.getRegion_NUM());
-            System.out.println(cri.getPlacetypelist_NUM());
+
             return travelInfoDAO.selectPlaceByRegionAndThemeAndType(cri);
         }
+    }
+
+    @Override
+    public ArrayList<PlaceVO> getSearchPlaceList(PlaceCriteria cri) {
+        if(cri.getSearch() == null) {
+            return null;
+        }
+        return travelInfoDAO.selectPlaceBySearch(cri);
     }
 
     // @Override

@@ -92,6 +92,19 @@
         ORDER BY p.place_like DESC
         
     </select>
+    <select id="selectPlaceBySearch" resultType="kr.kh.spring.model.vo.PlaceVO">
+        SELECT p.*
+        FROM place p
+        WHERE p.place_region_NUM = #{cri.region_NUM} AND (
+            #{cri.theme_NUM} = 1 OR p.place_NUM IN (
+                SELECT tp.themeplace_place_NUM
+                FROM themeplace tp
+                WHERE tp.themeplace_theme_NUM = #{cri.theme_NUM}
+            )
+        ) AND p.place_name LIKE '%'||#{cri.search}||'%' OR p.place_address LIKE '%'||#{cri.search}||'%' 
+
+    
+    </select>
 </mapper>
 <!-- 
 마이바티스 컨피그에서 매퍼 얼라이어스를 설정해줘서 리저트타입을 단축시킴 -->
