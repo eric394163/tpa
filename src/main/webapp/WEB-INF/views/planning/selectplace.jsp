@@ -129,13 +129,21 @@
                                 <button id="cafe-btn">카페</button>
                             </div>
                             <hr>
-                            <div class="search-box mb-3 ">
-                                <input id="place-search" type="text" placeholder="검색">
+                            <div class=" search-box mb-3 ">
+                                <input id=" place-search" type="text" placeholder="검색">
                                 <button id="submit-search">Search</button>
                             </div>
                             <hr>
                             <div class="place-content-container">
                                 <div id="place-content">
+                                    <c:forEach var="place" items="${placeList}">
+                                        <div class="place">
+                                            <div class="place-info">
+                                                <h3>${place.place_name}</h3>
+                                            </div>
+                                        </div>
+
+                                    </c:forEach>
 
                                 </div>
                             </div>
@@ -158,20 +166,34 @@
             </div>
             </div>
 
-            <script type="text/javascript">
-                $("#btn").click(function () {
-                    $("#test").load("/spring/board/list2" + " #test")
+            <script>
+                $(document).ready(function () {
+
+
+                    $("#recommend-btn, #restaurant-btn, #room-btn, #spot-btn, #cafe-btn").click(function () {
+                        var type = $(this).text();
+                        fetchPlaces(type);
+                    });
+
+                    function fetchPlaces(type) {
+                        $.ajax({
+                            url: "<c:url value='/planning/placebytype'/>",
+                            type: "GET",
+                            data: {
+                                type: type,
+                                themeNum: "${themeNum}",
+                                regionNum: "${regionNum}",
+                            },
+                            dataType: "html",
+                            success: function (data) {
+                                $("#place-content").html(data);
+                            },
+                            error: function (xhr, status, error) {
+                                console.error(xhr);
+                            }
+                        });
+                    }
                 });
-                function test() {
-                    $.ajax({
-                        url: "/spring/board/list2",
-                        success: function (data) {
-                            console.log(data);
-                            $("#test").html(data);
-                        }
-                    })
-                }
-                test();
             </script>
 
             <script type="text/javascript">

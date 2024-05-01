@@ -11,7 +11,9 @@ public class PlaceVO {
     private String place_id;
     private String place_name;
     private double place_rating;
+    private String place_imgUrl;
     private String place_content;
     private String place_address;
-    
+    private int place_like;
+
 }

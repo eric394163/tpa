@@ -10,8 +10,10 @@ import org.springframework.stereotype.Service;
 
 import kr.kh.spring.dao.TravelInfoDAO;
 import kr.kh.spring.model.vo.DivisionVO;
+import kr.kh.spring.model.vo.PlaceVO;
 import kr.kh.spring.model.vo.RegionVO;
 import kr.kh.spring.model.vo.ThemeVO;
+import kr.kh.spring.pagination.PlaceCriteria;
 
 @Service
 public class TravelInfoServiceImp implements TravelInfoService {
@@ -28,7 +30,7 @@ public class TravelInfoServiceImp implements TravelInfoService {
         return travelInfoDAO.selectThemeList();
 
     }
-    
+
     // - 함수명 : getDivision_Region
     // - 매개변수 : int theme_NUM
     // - 기능 : 테마에 따른 지역을 가져온다.
@@ -37,8 +39,36 @@ public class TravelInfoServiceImp implements TravelInfoService {
         if (theme_NUM == 0) {
             return null;
         }
-
         return travelInfoDAO.selectDivisionList(theme_NUM);
     }
+
+    @Override
+    public ArrayList<PlaceVO> getPlaceList(PlaceCriteria cri) {
+        if (cri.getTheme_NUM() == 0 && cri.getRegion_NUM() == 0 && cri.getPlacetypelist_NUM() == 0) {
+            System.out.println("blocked");
+            return null;
+        }
+        if (cri.getPlacetypelist_NUM() == -1) {
+            System.out.println("cri.getPlacetypelist_NUM() == -1");
+            return travelInfoDAO.selectPlaceByRegionAndTheme(cri);
+        }
+        if (cri.getPlacetypelist_NUM() == 1) {
+            System.out.println("cri.getPlacetypelist_NUM() == 1");
+            return travelInfoDAO.selectPlaceByRegionAndThemeMost(cri);
+        } else {
+            System.out.println("2,3,4,5");
+            System.out.println(cri.getTheme_NUM());
+            System.out.println(cri.getRegion_NUM());
+            System.out.println(cri.getPlacetypelist_NUM());
+            return travelInfoDAO.selectPlaceByRegionAndThemeAndType(cri);
+        }
+    }
+
+    // @Override
+    // public int getPlaceTotalCount(PlaceCriteria cri) {
+    // // TODO Auto-generated method stub
+    // throw new UnsupportedOperationException("Unimplemented method
+    // 'getPlaceTotalCount'");
+    // }
 
 }

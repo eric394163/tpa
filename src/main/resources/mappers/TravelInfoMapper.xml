@@ -8,7 +8,6 @@
         SELECT * FROM theme 
     </select>
     <!-- =========== 지역 시작 =========== -->
-
     <!-- id: DivisionMap -->
     <!-- 기능: 상위지역에 따른 하위 지역 쿼리를 위한 맵 -->
     <resultMap type="kr.kh.spring.model.vo.DivisionVO" id="DivisionMap">
@@ -30,12 +29,7 @@
             JOIN themeregion tr ON r.region_NUM = tr.themeregion_region_NUM
             WHERE tr.themeregion_theme_NUM = #{theme_NUM}
         )
-        <!-- select division.* from division 
-        join region on region_division_NUM = division_NUM
-        join themeregion on themeregion_region_NUM = region_NUM
-        <if test='theme_NUM != 1'>
-            where themeregion_theme_NUM = #{theme_NUM}
-        </if> -->
+
     </select>
     <!-- id: selectDivision_Region -->
     <!-- 기능: 지역 리스트를 조회하는 쿼리 -->
@@ -49,13 +43,55 @@
                 WHERE tr.themeregion_theme_NUM = #{theme_NUM}
             )
         )
-        <!-- select * from region 
-        join themeregion on themeregion_region_NUM = region_NUM
-        <if test='theme_NUM != 1'>
-            where themeregion_theme_NUM = #{theme_NUM} and region_division_NUM = #{division_NUM}
-        </if> -->
+
     </select>
     <!-- ============ 지역 끝 ============ -->
+    <!-- ============ 장소 시작 ============ -->
+    <!-- id: selectPlaceListByRegionAndTheme -->
+    <!-- 기능: 지역과 테마에따른 여행지 리스트를 조회하는 쿼리 -->
+    <!-- 세부 기능 : 처음 장소선택 페이지를 들어갔을때 테마와 지역정보에 따른 장소-->
+    <select id="selectPlaceByRegionAndTheme" resultType="kr.kh.spring.model.vo.PlaceVO">
+        SELECT p.*
+        FROM place p
+        WHERE p.place_region_NUM = #{cri.region_NUM} AND (
+            #{cri.theme_NUM} = 1 OR p.place_NUM IN (
+                SELECT tp.themeplace_place_NUM
+                FROM themeplace tp
+                WHERE tp.themeplace_theme_NUM = #{cri.theme_NUM}
+            )
+        )
+    </select>
+    <!-- id: selectPlaceListByRegionAndThemeType -->
+    <!-- 기능: 지역과 테마와 타입에 따른 여행지 리스트를 조회하는 쿼리 -->
+    <select id="selectPlaceByRegionAndThemeAndType"  resultType ="kr.kh.spring.model.vo.PlaceVO">
+        SELECT p.*
+        FROM place p
+        JOIN placetype pt ON p.place_NUM = pt.placetype_place_NUM
+        JOIN placetypelist ptl ON pt.placetype_placetypelist_NUM = ptl.placetypelist_NUM
+        WHERE p.place_region_NUM = #{cri.region_NUM}
+          AND (#{cri.theme_NUM} = 1 OR p.place_NUM IN (
+                SELECT tp.themeplace_place_NUM
+                FROM themeplace tp
+                WHERE tp.themeplace_theme_NUM = #{cri.theme_NUM} 
+              )
+          )
+          AND #{cri.placetypelist_NUM} = 1 OR (ptl.placetypelist_NUM = #{cri.placetypelist_NUM})
+        ORDER BY p.place_like DESC;
+
+    </select>
+    <select id="selectPlaceByRegionAndThemeMost" resultType="kr.kh.spring.model.vo.PlaceVO">
+        SELECT p.*
+        FROM place p
+        WHERE p.place_like > 0 AND p.place_region_NUM = #{cri.region_NUM} AND (
+            #{cri.theme_NUM} = 1 OR p.place_NUM IN (
+                SELECT tp.themeplace_place_NUM
+                FROM themeplace tp
+                WHERE tp.themeplace_theme_NUM = #{cri.theme_NUM}
+            )
+        )
+        ORDER BY p.place_like DESC
+        
+    </select>
 </mapper>
 <!-- 
 마이바티스 컨피그에서 매퍼 얼라이어스를 설정해줘서 리저트타입을 단축시킴 -->
