@@ -149,26 +149,26 @@ public class PlanningController {
     }
 
     @GetMapping("/planning/searchplace")
-    public String placeSearch(Model model, @RequestParam("type") String type,
-            @RequestParam("regionNum") int region_NUM, @RequestParam("themeNum") int theme_NUM, @RequestParam("search") String search) {
-    
+    public String placeSearch(Model model,
+            @RequestParam("regionNum") int region_NUM,
+            @RequestParam("themeNum") int theme_NUM,
+            @RequestParam("search") String search) {
 
         PlaceCriteria cri = new PlaceCriteria();
 
         int page = 1;
         int perPageNum = 5;
-        
+
         cri.setSearch(search);
         cri.setPage(page);
         cri.setPerPageNum(perPageNum);
         cri.setRegion_NUM(region_NUM);
         cri.setTheme_NUM(theme_NUM);
 
-
         ArrayList<PlaceVO> searchPlaceList = travelInfo_s.getSearchPlaceList(cri);
         // int totalCount = travelInfo_s.getPlaceTotalCount(cri);
         // PageMaker pm = new PageMaker(3, cri, totalCount);
-        model.addAttribute("searchPlaceList", searchPlaceList);
+        model.addAttribute("placeList", searchPlaceList);
         // model.addAttribute("pm", pm);
         return "/planning/place/placebytype";
     }

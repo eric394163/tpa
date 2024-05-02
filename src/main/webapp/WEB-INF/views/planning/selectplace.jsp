@@ -129,7 +129,7 @@
                             </div>
                             <hr>
                             <div class=" search-box mb-3 ">
-                                <input id=" place-search" type="text" placeholder="검색">
+                                <input id="place-search" type="text" placeholder="검색">
                                 <button id="submit-search">Search</button>
                             </div>
                             <hr>
@@ -147,7 +147,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="add-place-area">
+                        <div class="add-place-area" style="display: none;">
                             <div class=" search-box mb-3 ">
                                 <input id=" place-add-search" type="text" placeholder="검색">
                                 <button id="submit-place-add-search">Search</button>
@@ -200,21 +200,26 @@
 
             <!--장소 선택/추가 버튼 스트=크립트-->
             <script type="text/javascript">
-                //탭바처리 제이쿼리
-                $(".btn-area a").click(function () { //버튼 클릭
-                    //버튼 CSS활성
-                    $(".btn-area a").removeClass('active');
-                    $(this).addClass('active');
+                $(document).ready(function () {
+                    //탭바처리 제이쿼리
+                    $('.add-place-area').hide();
+                    $(".btn-area a").click(function () { //버튼 클릭
+                        //버튼 CSS활성
+                        $(".btn-area a").removeClass('active'); // 모든 버튼에 active클래스 제거
+                        $(this).addClass('active'); // 클릭한 버튼에만 active클래스 추가
 
-                    //컨텐츠 보이게 처리
-                    let index = $(this).parent().index();
-                    $(".contents-wrap > div").fadeOut(0);
-                    $(".contents-wrap > div").eq(index).fadeIn(0);
+                        //컨텐츠 보이게 처리
+                        let index = $(this).parent().index();
+                        $(".contents-wrap > div").fadeOut(0); //모든 컨텐츠 숨김
+                        $(".contents-wrap > div").eq(index).fadeIn(0); // 클릭한 버튼에 해당하는 컨텐츠만 보이게
+                    });
+                    $('.btn-area a:first').trigger('click'); //   첫번째 버튼 클릭
                 });
             </script>
 
             <!-- 장소 검색 스크립트 -->
             <script>
+
                 $(document).ready(function () {
                     // 검색 버튼 클릭 이벤트 핸들러
                     $("#submit-search").click(function (e) {
@@ -227,17 +232,19 @@
                         }
 
                         $.ajax({
-                            url: "/planning/searchplace", // 서버의 검색 API URL
+                            url: "<c:url value='/planning/searchplace'/>", // 서버의 검색 API URL
                             type: "GET",
                             data: {
-                                query: search, // 데이터로 검색어를 전달
+                                search: search, // 데이터로 검색어를 전달
+                                themeNum: "${themeNum}",
+                                regionNum: "${regionNum}",
                             },
                             dataType: "html",
                             success: function (data) {
                                 $("#place-content").html(data); // 성공 시 받은 데이터로 내용 업데이트
                             },
                             error: function (xhr, status, error) {
-                                console.error("검색 오류: " + error);
+                                console.error(xhr);
                             }
                         });
                     });
