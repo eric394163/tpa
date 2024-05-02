@@ -152,7 +152,6 @@
                                 <input id=" place-add-search" type="text" placeholder="검색">
                                 <button id="submit-place-add-search">Search</button>
                             </div>
-
                         </div>
                     </div>
                 </div>

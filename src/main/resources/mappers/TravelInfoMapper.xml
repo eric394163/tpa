@@ -75,7 +75,7 @@
                 WHERE tp.themeplace_theme_NUM = #{cri.theme_NUM} 
               )
           )
-          AND #{cri.placetypelist_NUM} = 1 OR (ptl.placetypelist_NUM = #{cri.placetypelist_NUM})
+          AND (#{cri.placetypelist_NUM} = 1 OR ptl.placetypelist_NUM = #{cri.placetypelist_NUM})
         ORDER BY p.place_like DESC;
 
     </select>
@@ -106,5 +106,3 @@
     
     </select>
 </mapper>
-<!-- 
-마이바티스 컨피그에서 매퍼 얼라이어스를 설정해줘서 리저트타입을 단축시킴 -->

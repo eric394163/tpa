@@ -44,18 +44,27 @@ public class TravelInfoServiceImp implements TravelInfoService {
 
     @Override
     public ArrayList<PlaceVO> getPlaceList(PlaceCriteria cri) {
+
+        System.out.println("cri.getTheme_NUM() : " + cri.getTheme_NUM());
+        System.out.println("cri.getRegion_NUM() : " + cri.getRegion_NUM());
+        System.out.println("cri.getPlacetypelist_NUM() : " + cri.getPlacetypelist_NUM());
+
         if (cri.getTheme_NUM() == 0 && cri.getRegion_NUM() == 0 && cri.getPlacetypelist_NUM() == 0) {
-           
+           System.out.println("막힘");
             return null;
         }
+
         if (cri.getPlacetypelist_NUM() == -1) {
+            System.out.println("-1");
 
             return travelInfoDAO.selectPlaceByRegionAndTheme(cri);
         }
         if (cri.getPlacetypelist_NUM() == 1) {
+            System.out.println("1");
  
             return travelInfoDAO.selectPlaceByRegionAndThemeMost(cri);
         } else {
+            System.out.println("else");
 
             return travelInfoDAO.selectPlaceByRegionAndThemeAndType(cri);
         }
