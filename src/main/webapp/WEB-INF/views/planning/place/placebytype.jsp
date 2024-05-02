@@ -16,5 +16,11 @@
                     </div>
                 </c:forEach>
             </div>
+            <c:if test="${pm.totalCount > pm.cri.page*pm.cri.perPageNum}">
+                <!-- pm.totalCount : 전체 게시물 수, pm.cri.page*pm.cri.perPageNum : 현재 페이지에 보여줄 게시물 수 페이지 초과되면 숨기기 -->
+                <button id="load-more" style="display: block; margin: 20px auto;">Load More</button>
+            </c:if>
+
+
 
         </body>

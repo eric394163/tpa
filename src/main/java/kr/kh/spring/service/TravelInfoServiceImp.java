@@ -42,47 +42,66 @@ public class TravelInfoServiceImp implements TravelInfoService {
         return travelInfoDAO.selectDivisionList(theme_NUM);
     }
 
+    // - 함수명 : getPlaceList
+    // - 매개변수 : PlaceCriteria cri
+    // - 기능 : 장소 리스트를 가져온다.
+    // - 상세기능 : 타입이 -1 ( 없음 ) 이면 지역과 테마에 따른 장소 가져오고
+    // 타입이 1 (추천) 이면 많이 일정에 등록된 지역과 테마에 따른 장소 가져옴
+    // 타임이 2 이상이면 타입에 따른 지역과 테마에 따르는 장소 가져옴
     @Override
     public ArrayList<PlaceVO> getPlaceList(PlaceCriteria cri) {
 
-        System.out.println("cri.getTheme_NUM() : " + cri.getTheme_NUM());
-        System.out.println("cri.getRegion_NUM() : " + cri.getRegion_NUM());
-        System.out.println("cri.getPlacetypelist_NUM() : " + cri.getPlacetypelist_NUM());
-
         if (cri.getTheme_NUM() == 0 && cri.getRegion_NUM() == 0 && cri.getPlacetypelist_NUM() == 0) {
-           System.out.println("막힘");
             return null;
         }
 
         if (cri.getPlacetypelist_NUM() == -1) {
-            System.out.println("-1");
-
             return travelInfoDAO.selectPlaceByRegionAndTheme(cri);
         }
         if (cri.getPlacetypelist_NUM() == 1) {
-            System.out.println("1");
- 
+
             return travelInfoDAO.selectPlaceByRegionAndThemeMost(cri);
         } else {
-            System.out.println("else");
 
             return travelInfoDAO.selectPlaceByRegionAndThemeAndType(cri);
         }
     }
 
     @Override
+    public int getPlaceTotalCount(PlaceCriteria cri) {
+        if (cri.getTheme_NUM() == 0 && cri.getRegion_NUM() == 0 && cri.getPlacetypelist_NUM() == 0) {
+            return 0;
+        }
+        if (cri.getPlacetypelist_NUM() == -1) {
+            return travelInfoDAO.selectPlaceTotalCount(cri);
+        }
+        if (cri.getPlacetypelist_NUM() == 1) {
+            return travelInfoDAO.selectPlaceTotalCountMost(cri);
+        } else {
+            return travelInfoDAO.selectPlaceTotalCountType(cri);
+        }
+
+    }
+
+    // - 함수명 : getSearchPlaceList
+    // - 매개변수 : PlaceCriteria cri
+    // - 기능 : 검색어에 따른 장소 리스트를 가져온다.
+    @Override
     public ArrayList<PlaceVO> getSearchPlaceList(PlaceCriteria cri) {
-        if(cri.getSearch() == null) {
+        if (cri.getSearch() == null) {
             return null;
         }
         return travelInfoDAO.selectPlaceBySearch(cri);
     }
 
-    // @Override
-    // public int getPlaceTotalCount(PlaceCriteria cri) {
-    // // TODO Auto-generated method stub
-    // throw new UnsupportedOperationException("Unimplemented method
-    // 'getPlaceTotalCount'");
-    // }
+    @Override
+    public int getSearchPlaceListCount(PlaceCriteria cri) {
+        if (cri.getSearch() == null) {
+            return 0;
+        }
+        return travelInfoDAO.selectPlaceTotalCountSearch(cri);
+    }
 
+
+    
 }

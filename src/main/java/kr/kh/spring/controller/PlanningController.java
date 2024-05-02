@@ -72,6 +72,11 @@ public class PlanningController {
         return "/planning/selectstart";
     }
 
+    // - 함수명 : selectplacePost
+    // - 매개변수 : Model model, String schedule_startDate, String schedule_endDate, int
+    // region_NUM, int theme_NUM, String startPlaceId, String startPlaceLat, String
+    // startPlaceLng
+    // - 기능 : 장소를 선택하는 페이지로 이동하고 장소 리스트를 가져온다.
     @PostMapping("/planning/selectplace")
     public String selectplacePost(Model model,
             @RequestParam("startDate") String schedule_startDate,
@@ -94,7 +99,7 @@ public class PlanningController {
 
         int noParam = -1;
         int page = 1;
-        int perPageNum = 5;
+        int perPageNum = 1;
 
         cri.setPage(page);
         cri.setPerPageNum(perPageNum);
@@ -103,25 +108,24 @@ public class PlanningController {
         cri.setPlacetypelist_NUM(noParam);
 
         ArrayList<PlaceVO> placeList = travelInfo_s.getPlaceList(cri);
-        // int totalCount = travelInfo_s.getPlaceTotalCount(cri);
-        // PageMaker pm = new PageMaker(3, cri, totalCount);
+        int totalCount = travelInfo_s.getPlaceTotalCount(cri);
+        System.out.println("totalCount: " + totalCount);
+        PageMaker pm = new PageMaker(1, cri, totalCount);
         model.addAttribute("placeList", placeList);
-        // model.addAttribute("pm", pm);
+        model.addAttribute("pm", pm);
 
         return "/planning/selectplace";
     }
 
     @GetMapping("/planning/placebytype")
-    public String placebytype(Model model, @RequestParam("type") String type,
+    public String placebytype(Model model, @RequestParam("type") String type, @RequestParam("currentPage") int currentPage,
             @RequestParam("regionNum") int region_NUM, @RequestParam("themeNum") int theme_NUM) {
         System.out.println("type: " + type);
 
         PlaceCriteria cri = new PlaceCriteria();
+        int perPageNum = 1;
 
-        int page = 1;
-        int perPageNum = 5;
-
-        cri.setPage(page);
+        cri.setPage(currentPage);
         cri.setPerPageNum(perPageNum);
         cri.setRegion_NUM(region_NUM);
         cri.setTheme_NUM(theme_NUM);
@@ -141,10 +145,10 @@ public class PlanningController {
         }
 
         ArrayList<PlaceVO> placeList = travelInfo_s.getPlaceList(cri);
-        // int totalCount = travelInfo_s.getPlaceTotalCount(cri);
-        // PageMaker pm = new PageMaker(3, cri, totalCount);
+        int totalCount = travelInfo_s.getPlaceTotalCount(cri);
+        PageMaker pm = new PageMaker(1, cri, totalCount);
         model.addAttribute("placeList", placeList);
-        // model.addAttribute("pm", pm);
+        model.addAttribute("pm", pm);
         return "/planning/place/placebytype";
     }
 
@@ -157,7 +161,7 @@ public class PlanningController {
         PlaceCriteria cri = new PlaceCriteria();
 
         int page = 1;
-        int perPageNum = 5;
+        int perPageNum = 1;
 
         cri.setSearch(search);
         cri.setPage(page);
@@ -166,10 +170,10 @@ public class PlanningController {
         cri.setTheme_NUM(theme_NUM);
 
         ArrayList<PlaceVO> searchPlaceList = travelInfo_s.getSearchPlaceList(cri);
-        // int totalCount = travelInfo_s.getPlaceTotalCount(cri);
-        // PageMaker pm = new PageMaker(3, cri, totalCount);
+        int totalCount = travelInfo_s.getSearchPlaceListCount(cri);
+        PageMaker pm = new PageMaker(3, cri, totalCount);
         model.addAttribute("placeList", searchPlaceList);
-        // model.addAttribute("pm", pm);
+        model.addAttribute("pm", pm);
         return "/planning/place/placebytype";
     }
 }

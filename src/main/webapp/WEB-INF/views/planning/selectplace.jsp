@@ -169,9 +169,64 @@
             </div>
             </div>
 
-            <!--타입 선택 스크립트-->
             <script>
                 $(document).ready(function () {
+                    let currentPage = "${pm.cri.page}";  // 현재 페이지 번호를 추적
+                    let currentType = "";  // 현재 선택된 타입
+                    let count = "${pm.totalCount}";  // 전체 데이터 수
+
+                    // 장소 유형 버튼 클릭 이벤트
+                    $("#recommend-btn, #restaurant-btn, #room-btn, #spot-btn, #cafe-btn").click(function () {
+                        currentType = $(this).text();  // 클릭한 버튼의 텍스트(장소 유형) 저장
+                        currentPage = 1;  // 새 유형을 선택하면 페이지 번호 초기화
+                        fetchPlaces(currentType, currentPage);  // 데이터 가져오기
+                    });
+
+                    // 더보기 버튼 클릭 이벤트
+                    $(document).on('click', '#load-more', function () {
+                        currentPage++;  // 클릭할 때마다 페이지 번호 증가
+                        fetchPlaces(currentType, currentPage);  // 새 페이지 번호로 데이터 요청
+                        console.log("Current Page: " + currentPage);  // 현재 페이지 번호 로그 출력
+                    });
+
+                    // 장소 데이터 가져오기 함수
+                    function fetchPlaces(type, pageNumber) {
+                        $.ajax({
+                            url: "<c:url value='/planning/placebytype'/>",
+                            type: "GET",
+                            data: {
+                                currentPage: pageNumber,
+                                type: type,
+                                themeNum: "${themeNum}",
+                                regionNum: "${regionNum}",
+                            },
+                            dataType: "html",
+                            success: function (data) {
+                                $('#load-more').remove();
+                                if (data.trim().length) {
+                                    if (pageNumber === 1) {
+                                        $("#place-content").html(data);  // 첫 페이지이면 대체
+                                    } else {
+                                        $("#place-content").append(data);  // 추가 페이지일 경우 추가
+                                    }
+                                }
+            
+
+                            },
+                            error: function (xhr, status, error) {
+                                console.error("Error fetching data: " + xhr.status);
+                            }
+                        });
+                    }
+                });
+
+            </script>
+
+            <!-- 타입 선택 스크립트
+            <script>
+                $(document).ready(function () {
+                    let currentPage = "${pm.cri.page}";
+    
                     $("#recommend-btn, #restaurant-btn, #room-btn, #spot-btn, #cafe-btn").click(function () {
                         var type = $(this).text();
                         fetchPlaces(type);
@@ -182,6 +237,7 @@
                             url: "<c:url value='/planning/placebytype'/>",
                             type: "GET",
                             data: {
+                                currentPage: currentPage,
                                 type: type,
                                 themeNum: "${themeNum}",
                                 regionNum: "${regionNum}",
@@ -196,7 +252,7 @@
                         });
                     }
                 });
-            </script>
+            </script> -->
 
             <!--장소 선택/추가 버튼 스트=크립트-->
             <script type="text/javascript">
@@ -219,6 +275,7 @@
 
             <!-- 장소 검색 스크립트 -->
             <script>
+
 
                 $(document).ready(function () {
                     // 검색 버튼 클릭 이벤트 핸들러
@@ -269,6 +326,43 @@
                     });
                 });
             </script>
+
+            <!-- <script>
+                $(document).ready(function () {
+                    var currentPage = "${pm.cri.page}";  // 현재 페이지 번호를 추적
+
+                    $(document).on('click','#load-more',function () {
+                        currentPage++;  // 클릭할 때마다 페이지 번호 증가
+                        fetchPlaces(currentPage);  // 새 페이지 번호로 데이터 요청
+                        console.log(currentPage);
+                    });
+
+                    function fetchPlaces(pageNumber) {
+                        $.ajax({
+                            url: "<c:url value='/planning/placebytype'/>",
+                            type: "GET",
+                            data: {
+                                currentPage : pageNumber,  // 현재 페이지 번호를 서버에 전송
+                                type: 
+                                themeNum : "${themeNum}",
+                                regionNum: "${regionNum}",
+                            },
+                            dataType: "html",
+                            success: function (data) {
+                                if (data.trim().length) {  // 반환된 데이터가 있는지 확인
+                                    $("#place-content").append(data);  // 새 데이터 추가
+                                } else {
+                                    $('#load-more').hide();  // 데이터가 더 이상 없으면 버튼 숨기기
+                                }
+                            },
+                            error: function (xhr, status, error) {
+                                console.error(xhr);
+                            }
+                        });
+                    }
+                });
+            </script> -->
+
 
             <!-- 지도 스크립트-->
             <script type="module">

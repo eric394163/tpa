@@ -11,7 +11,6 @@ public class PlaceCriteria extends Criteria {
     private int region_NUM;
     private int placetypelist_NUM;
     private String search;
-    private String type;
 
     public PlaceCriteria(int page, int perPageNum, int theme_NUM, int region_NUM, int placetypelist_NUM, String search) {
         super(page, perPageNum);

@@ -28,7 +28,7 @@
             FROM region r
             JOIN themeregion tr ON r.region_NUM = tr.themeregion_region_NUM
             WHERE tr.themeregion_theme_NUM = #{theme_NUM}
-        )
+        );
 
     </select>
     <!-- id: selectDivision_Region -->
@@ -42,7 +42,7 @@
                 FROM themeregion tr
                 WHERE tr.themeregion_theme_NUM = #{theme_NUM}
             )
-        )
+        );
 
     </select>
     <!-- ============ 지역 끝 ============ -->
@@ -60,6 +60,7 @@
                 WHERE tp.themeplace_theme_NUM = #{cri.theme_NUM}
             )
         )
+        LIMIT #{cri.pageStart}, #{cri.perPageNum};
     </select>
     <!-- id: selectPlaceListByRegionAndThemeType -->
     <!-- 기능: 지역과 테마와 타입에 따른 여행지 리스트를 조회하는 쿼리 -->
@@ -76,9 +77,11 @@
               )
           )
           AND (#{cri.placetypelist_NUM} = 1 OR ptl.placetypelist_NUM = #{cri.placetypelist_NUM})
-        ORDER BY p.place_like DESC;
+        ORDER BY p.place_like DESC
+        LIMIT #{cri.pageStart}, #{cri.perPageNum};
 
     </select>
+    <!-- id: selectPlaceListByRegionAndThemeMost -->
     <select id="selectPlaceByRegionAndThemeMost" resultType="kr.kh.spring.model.vo.PlaceVO">
         SELECT p.*
         FROM place p
@@ -90,8 +93,11 @@
             )
         )
         ORDER BY p.place_like DESC
+        LIMIT #{cri.pageStart}, #{cri.perPageNum};
         
     </select>
+    <!-- id: selectPlaceListBySearch -->
+    <!-- 기능: 검색어에 따른 여행지 리스트를 조회하는 쿼리 -->
     <select id="selectPlaceBySearch" resultType="kr.kh.spring.model.vo.PlaceVO">
         SELECT p.*
         FROM place p
@@ -107,7 +113,62 @@
             p.place_name LIKE CONCAT('%', #{cri.search}, '%') 
             OR p.place_address LIKE CONCAT('%', #{cri.search}, '%')  
         )
+        LIMIT #{cri.pageStart}, #{cri.perPageNum};
 
-    
+    </select>
+    <select id="selectPlaceTotalCount" resultType="int">
+        SELECT COUNT(*)
+        FROM place p
+        WHERE p.place_region_NUM = #{cri.region_NUM}
+        AND (
+            #{cri.theme_NUM} = 1 OR p.place_NUM IN (
+            SELECT tp.themeplace_place_NUM
+            FROM themeplace tp
+            WHERE tp.themeplace_theme_NUM = #{cri.theme_NUM}
+            )
+        );
+    </select>
+    <select id="selectPlaceTotalCountMost" resultType="int">
+        SELECT COUNT(*)
+        FROM place p
+        WHERE p.place_like > 0 AND p.place_region_NUM = #{cri.region_NUM}
+        AND (
+            #{cri.theme_NUM} = 1 OR p.place_NUM IN (
+            SELECT tp.themeplace_place_NUM
+            FROM themeplace tp
+            WHERE tp.themeplace_theme_NUM = #{cri.theme_NUM}
+            )
+        );
+
+    </select>
+    <select id="selectPlaceTotalCountType" resultType="int">
+        SELECT COUNT(*)
+        FROM place p
+        JOIN placetype pt ON p.place_NUM = pt.placetype_place_NUM
+        JOIN placetypelist ptl ON pt.placetype_placetypelist_NUM = ptl.placetypelist_NUM
+        WHERE p.place_region_NUM = #{cri.region_NUM}
+        AND (#{cri.theme_NUM} = 1 OR p.place_NUM IN (
+            SELECT tp.themeplace_place_NUM
+            FROM themeplace tp
+            WHERE tp.themeplace_theme_NUM = #{cri.theme_NUM}
+            )
+        )
+        AND (#{cri.placetypelist_NUM} = 1 OR ptl.placetypelist_NUM = #{cri.placetypelist_NUM});
+    </select>
+    <select id="selectPlaceTotalCountSearch" resultType="int">
+        SELECT COUNT(*)
+        FROM place p
+        WHERE p.place_region_NUM = #{cri.region_NUM}
+        AND (
+            #{cri.theme_NUM} = 1 OR p.place_NUM IN (
+            SELECT tp.themeplace_place_NUM
+            FROM themeplace tp
+            WHERE tp.themeplace_theme_NUM = #{cri.theme_NUM}
+            )
+        )
+        AND (
+            p.place_name LIKE CONCAT('%', #{cri.search}, '%') 
+            OR p.place_address LIKE CONCAT('%', #{cri.search}, '%')  
+        );
     </select>
 </mapper>
