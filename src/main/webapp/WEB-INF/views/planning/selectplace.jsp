@@ -135,14 +135,7 @@
                             <hr>
                             <div class="place-content-container">
                                 <div id="place-content">
-                                    <c:forEach var="place" items="${placeList}">
-                                        <div class="place">
-                                            <div class="place-info">
-                                                <h3>${place.place_name}</h3>
-                                            </div>
-                                        </div>
 
-                                    </c:forEach>
 
                                 </div>
                             </div>
@@ -174,29 +167,48 @@
                     let currentPage = "${pm.cri.page}";  // 현재 페이지 번호를 추적
                     let currentType = "";  // 현재 선택된 타입
                     let count = "${pm.totalCount}";  // 전체 데이터 수
+                    let isSearch = false;  // 검색 여부 플래그
+                    let search = "";  // 검색어
 
                     // 장소 유형 버튼 클릭 이벤트
                     $("#recommend-btn, #restaurant-btn, #room-btn, #spot-btn, #cafe-btn").click(function () {
+                        isSearch = false;
+                        search = "";
                         currentType = $(this).text();  // 클릭한 버튼의 텍스트(장소 유형) 저장
                         currentPage = 1;  // 새 유형을 선택하면 페이지 번호 초기화
-                        fetchPlaces(currentType, currentPage);  // 데이터 가져오기
+                        fetchPlaces(currentType, currentPage, isSearch, search);  // 데이터 가져오기
+                    });
+
+                    // 검색 버튼 클릭 이벤트
+                    $("#submit-search").click(function (e) {
+                        e.preventDefault();
+
+                        search = $("#place-search").val();
+                        if (!search) {
+                            alert("검색어를 입력하세요.");
+                            return;
+                        }
+
+                        isSearch = true;
+                        currentPage = 1;
+                        fetchPlaces(currentType, currentPage, isSearch, search);
                     });
 
                     // 더보기 버튼 클릭 이벤트
                     $(document).on('click', '#load-more', function () {
                         currentPage++;  // 클릭할 때마다 페이지 번호 증가
-                        fetchPlaces(currentType, currentPage);  // 새 페이지 번호로 데이터 요청
-                        console.log("Current Page: " + currentPage);  // 현재 페이지 번호 로그 출력
+                        fetchPlaces(currentType, currentPage, isSearch, search);  // 새 페이지 번호로 데이터 요청
                     });
 
                     // 장소 데이터 가져오기 함수
-                    function fetchPlaces(type, pageNumber) {
+                    function fetchPlaces(type, pageNumber, isSearch, search) {
                         $.ajax({
-                            url: "<c:url value='/planning/placebytype'/>",
+                            url: isSearch ? "<c:url value='/planning/searchplace'/>" : "<c:url value='/planning/placebytype'/>",
                             type: "GET",
                             data: {
                                 currentPage: pageNumber,
                                 type: type,
+                                search: search,
                                 themeNum: "${themeNum}",
                                 regionNum: "${regionNum}",
                             },
@@ -210,41 +222,8 @@
                                         $("#place-content").append(data);  // 추가 페이지일 경우 추가
                                     }
                                 }
-            
 
-                            },
-                            error: function (xhr, status, error) {
-                                console.error("Error fetching data: " + xhr.status);
-                            }
-                        });
-                    }
-                });
 
-            </script>
-
-            <!-- 타입 선택 스크립트
-            <script>
-                $(document).ready(function () {
-                    let currentPage = "${pm.cri.page}";
-    
-                    $("#recommend-btn, #restaurant-btn, #room-btn, #spot-btn, #cafe-btn").click(function () {
-                        var type = $(this).text();
-                        fetchPlaces(type);
-                    });
-
-                    function fetchPlaces(type) {
-                        $.ajax({
-                            url: "<c:url value='/planning/placebytype'/>",
-                            type: "GET",
-                            data: {
-                                currentPage: currentPage,
-                                type: type,
-                                themeNum: "${themeNum}",
-                                regionNum: "${regionNum}",
-                            },
-                            dataType: "html",
-                            success: function (data) {
-                                $("#place-content").html(data);
                             },
                             error: function (xhr, status, error) {
                                 console.error(xhr);
@@ -252,7 +231,9 @@
                         });
                     }
                 });
-            </script> -->
+
+            </script>
+
 
             <!--장소 선택/추가 버튼 스트=크립트-->
             <script type="text/javascript">
@@ -270,43 +251,12 @@
                         $(".contents-wrap > div").eq(index).fadeIn(0); // 클릭한 버튼에 해당하는 컨텐츠만 보이게
                     });
                     $('.btn-area a:first').trigger('click'); //   첫번째 버튼 클릭
+                    $('#recommend-btn').trigger('click');
+
+
                 });
             </script>
 
-            <!-- 장소 검색 스크립트 -->
-            <script>
-
-
-                $(document).ready(function () {
-                    // 검색 버튼 클릭 이벤트 핸들러
-                    $("#submit-search").click(function (e) {
-                        e.preventDefault();  // 폼 제출을 막습니다.
-
-                        var search = $("#place-search").val(); // 입력 필드에서 검색어를 가져옵니다.
-                        if (!search) {
-                            alert("검색어를 입력하세요.");
-                            return; // 검색어가 없으면 종료
-                        }
-
-                        $.ajax({
-                            url: "<c:url value='/planning/searchplace'/>", // 서버의 검색 API URL
-                            type: "GET",
-                            data: {
-                                search: search, // 데이터로 검색어를 전달
-                                themeNum: "${themeNum}",
-                                regionNum: "${regionNum}",
-                            },
-                            dataType: "html",
-                            success: function (data) {
-                                $("#place-content").html(data); // 성공 시 받은 데이터로 내용 업데이트
-                            },
-                            error: function (xhr, status, error) {
-                                console.error(xhr);
-                            }
-                        });
-                    });
-                });
-            </script>
 
 
             <!--장소 보관함 스크립트-->
@@ -327,93 +277,73 @@
                 });
             </script>
 
-            <!-- <script>
-                $(document).ready(function () {
-                    var currentPage = "${pm.cri.page}";  // 현재 페이지 번호를 추적
-
-                    $(document).on('click','#load-more',function () {
-                        currentPage++;  // 클릭할 때마다 페이지 번호 증가
-                        fetchPlaces(currentPage);  // 새 페이지 번호로 데이터 요청
-                        console.log(currentPage);
-                    });
-
-                    function fetchPlaces(pageNumber) {
-                        $.ajax({
-                            url: "<c:url value='/planning/placebytype'/>",
-                            type: "GET",
-                            data: {
-                                currentPage : pageNumber,  // 현재 페이지 번호를 서버에 전송
-                                type: 
-                                themeNum : "${themeNum}",
-                                regionNum: "${regionNum}",
-                            },
-                            dataType: "html",
-                            success: function (data) {
-                                if (data.trim().length) {  // 반환된 데이터가 있는지 확인
-                                    $("#place-content").append(data);  // 새 데이터 추가
-                                } else {
-                                    $('#load-more').hide();  // 데이터가 더 이상 없으면 버튼 숨기기
-                                }
-                            },
-                            error: function (xhr, status, error) {
-                                console.error(xhr);
-                            }
-                        });
-                    }
-                });
-            </script> -->
-
-
-            <!-- 지도 스크립트-->
-            <script type="module">
-
+            <script>
                 let map;
-                let service;
-                let infowindow;
-                let markers = []; // 마커를 저장할 배열
+                let markers = [];
 
-                // ======== 지도 초기화 및 생성 ========
                 function initMap() {
                     const firstLocation = new google.maps.LatLng(37.495484, 127.033357);
-
-                    map = new google.maps.Map(document.getElementById("map"), { // 지도 생성
-                        center: firstLocation,  // 중심 좌표
-                        zoom: 15, // 확대 수준
+                    map = new google.maps.Map(document.getElementById("map"), {
+                        center: firstLocation,
+                        zoom: 15
                     });
-                    infowindow = new google.maps.InfoWindow();
-
                 }
-
-
-
-
-                // ======== 마커 관련 함수  ========
-
-                //마커생성
-                function createMarker(place) {
-                    if (!place.geometry || !place.geometry.location) return; // geometry 또는 location이 없으면 함수 종료
-                    clearMarkers();
-                    const marker = new google.maps.Marker({ // 마커 생성
-                        map, // 지도
-                        position: place.geometry.location, // 위치
-                    });
-                    markers.push(marker);
-                }
-
-                // 기존에 표시된 모든 마커를 지도에서 제거
-                function clearMarkers() {
-                    for (let marker of markers) {
-                        marker.setMap(null);
-                    }
-                    markers = []; // 배열 초기화
-                }
-
 
                 window.initMap = initMap;
 
+                document.addEventListener('DOMContentLoaded', function () {
+                    document.body.addEventListener('click', function (e) {
+                        if (e.target.dataset.placeName) {
+                            const placeName = e.target.dataset.placeName;
+                            const placeNum = e.target.dataset.placeNum;
+                            const latitude = parseFloat(e.target.dataset.lat);
+                            const longitude = parseFloat(e.target.dataset.lng);
+                            addToPlaceHolder(placeName, placeNum, latitude, longitude);
+                        }
+                    });
 
+                    function addToPlaceHolder(placeName, placeNum, lat, lng) {
+                        const placeHolder = document.querySelector('.place-holder');
+                        if (!placeHolder) {
+                            console.error('Place holder element not found.');
+                            return;
+                        }
+
+                        if (isPlaceAdded(placeNum)) {
+                            alert("This place is already added.");
+                            return;
+                        }
+
+                        const newPlace = document.createElement('div');
+                        newPlace.innerHTML = `<strong>(ID: \${placeNum}) \${placeName}</strong>`;
+                        newPlace.setAttribute('data-place-num', placeNum);
+                        newPlace.style.padding = '10px';
+                        newPlace.style.borderBottom = '1px solid #ccc';
+                        placeHolder.appendChild(newPlace);
+
+                        createMarker({ lat: lat, lng: lng, placeName: placeName });
+                    }
+
+                    function createMarker(place) {
+                        const position = new google.maps.LatLng(place.lat, place.lng);
+                        const marker = new google.maps.Marker({
+                            map: map,
+                            position: position,
+                            title: place.placeName
+                        });
+                        markers.push(marker);
+                        map.setCenter(position);
+                    }
+
+                    function isPlaceAdded(placeNum) {
+                        const existingPlaces = document.querySelectorAll('.place-holder div[data-place-num]');
+                        return Array.from(existingPlaces).some(place => place.getAttribute('data-place-num') === placeNum);
+                    }
+                });
             </script>
             <script
                 src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD_dbDJ50HoF3zG_26w0y5gnCUDoL7RskA&callback=initMap&libraries=places&v=weekly"
                 defer></script>
+
+
         </body>

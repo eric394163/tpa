@@ -18,8 +18,8 @@ public interface TravelInfoDAO {
     ArrayList<DivisionVO> selectDivisionList(@Param("theme_NUM") int theme_NUM);
 
     // 장소 관련 메서드
-    ArrayList<PlaceVO> selectPlaceByRegionAndTheme(@Param("cri") PlaceCriteria cri);
-    int selectPlaceTotalCount(@Param("cri") PlaceCriteria cri);
+    // ArrayList<PlaceVO> selectPlaceByRegionAndTheme(@Param("cri") PlaceCriteria cri);
+    // int selectPlaceTotalCount(@Param("cri") PlaceCriteria cri);
 
     ArrayList<PlaceVO> selectPlaceByRegionAndThemeAndType(@Param("cri") PlaceCriteria cri);
     int selectPlaceTotalCountType(@Param("cri") PlaceCriteria cri);

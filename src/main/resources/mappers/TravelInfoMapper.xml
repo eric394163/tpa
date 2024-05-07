@@ -50,7 +50,7 @@
     <!-- id: selectPlaceListByRegionAndTheme -->
     <!-- 기능: 지역과 테마에따른 여행지 리스트를 조회하는 쿼리 -->
     <!-- 세부 기능 : 처음 장소선택 페이지를 들어갔을때 테마와 지역정보에 따른 장소-->
-    <select id="selectPlaceByRegionAndTheme" resultType="kr.kh.spring.model.vo.PlaceVO">
+    <!-- <select id="selectPlaceByRegionAndTheme" resultType="kr.kh.spring.model.vo.PlaceVO">
         SELECT p.*
         FROM place p
         WHERE p.place_region_NUM = #{cri.region_NUM} AND (
@@ -61,7 +61,7 @@
             )
         )
         LIMIT #{cri.pageStart}, #{cri.perPageNum};
-    </select>
+    </select> -->
     <!-- id: selectPlaceListByRegionAndThemeType -->
     <!-- 기능: 지역과 테마와 타입에 따른 여행지 리스트를 조회하는 쿼리 -->
     <select id="selectPlaceByRegionAndThemeAndType"  resultType ="kr.kh.spring.model.vo.PlaceVO">
@@ -116,7 +116,7 @@
         LIMIT #{cri.pageStart}, #{cri.perPageNum};
 
     </select>
-    <select id="selectPlaceTotalCount" resultType="int">
+    <!-- <select id="selectPlaceTotalCount" resultType="int">
         SELECT COUNT(*)
         FROM place p
         WHERE p.place_region_NUM = #{cri.region_NUM}
@@ -127,7 +127,7 @@
             WHERE tp.themeplace_theme_NUM = #{cri.theme_NUM}
             )
         );
-    </select>
+    </select> -->
     <select id="selectPlaceTotalCountMost" resultType="int">
         SELECT COUNT(*)
         FROM place p

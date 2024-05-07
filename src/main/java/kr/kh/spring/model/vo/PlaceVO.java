@@ -15,5 +15,7 @@ public class PlaceVO {
     private String place_content;
     private String place_address;
     private int place_like;
+    private double place_lat;
+    private double place_lng;
 
 }

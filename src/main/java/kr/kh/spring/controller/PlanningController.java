@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import kr.kh.spring.model.vo.DivisionVO;
 import kr.kh.spring.model.vo.PlaceVO;
 import kr.kh.spring.model.vo.ThemeVO;
-import kr.kh.spring.pagination.Criteria;
 import kr.kh.spring.pagination.PageMaker;
 import kr.kh.spring.pagination.PlaceCriteria;
 import kr.kh.spring.service.TravelInfoService;
@@ -76,7 +75,7 @@ public class PlanningController {
     // - 매개변수 : Model model, String schedule_startDate, String schedule_endDate, int
     // region_NUM, int theme_NUM, String startPlaceId, String startPlaceLat, String
     // startPlaceLng
-    // - 기능 : 장소를 선택하는 페이지로 이동하고 장소 리스트를 가져온다.
+    // - 기능 : 장소를 선택하는 페이지로 이동
     @PostMapping("/planning/selectplace")
     public String selectplacePost(Model model,
             @RequestParam("startDate") String schedule_startDate,
@@ -95,32 +94,14 @@ public class PlanningController {
         model.addAttribute("startPlaceLat", startPlaceLat);
         model.addAttribute("startPlaceLng", startPlaceLng);
 
-        PlaceCriteria cri = new PlaceCriteria();
-
-        int noParam = -1;
-        int page = 1;
-        int perPageNum = 1;
-
-        cri.setPage(page);
-        cri.setPerPageNum(perPageNum);
-        cri.setRegion_NUM(region_NUM);
-        cri.setTheme_NUM(theme_NUM);
-        cri.setPlacetypelist_NUM(noParam);
-
-        ArrayList<PlaceVO> placeList = travelInfo_s.getPlaceList(cri);
-        int totalCount = travelInfo_s.getPlaceTotalCount(cri);
-        System.out.println("totalCount: " + totalCount);
-        PageMaker pm = new PageMaker(1, cri, totalCount);
-        model.addAttribute("placeList", placeList);
-        model.addAttribute("pm", pm);
 
         return "/planning/selectplace";
     }
 
     @GetMapping("/planning/placebytype")
-    public String placebytype(Model model, @RequestParam("type") String type, @RequestParam("currentPage") int currentPage,
+    public String placebytype(Model model, @RequestParam("type") String type,
+            @RequestParam("currentPage") int currentPage,
             @RequestParam("regionNum") int region_NUM, @RequestParam("themeNum") int theme_NUM) {
-        System.out.println("type: " + type);
 
         PlaceCriteria cri = new PlaceCriteria();
         int perPageNum = 1;
@@ -156,22 +137,22 @@ public class PlanningController {
     public String placeSearch(Model model,
             @RequestParam("regionNum") int region_NUM,
             @RequestParam("themeNum") int theme_NUM,
-            @RequestParam("search") String search) {
+            @RequestParam("search") String search,
+            @RequestParam("currentPage") int currentPage) {
 
         PlaceCriteria cri = new PlaceCriteria();
 
-        int page = 1;
         int perPageNum = 1;
-
+        int displayPageNum = 3;
+        cri.setPage(currentPage);
         cri.setSearch(search);
-        cri.setPage(page);
         cri.setPerPageNum(perPageNum);
         cri.setRegion_NUM(region_NUM);
         cri.setTheme_NUM(theme_NUM);
 
         ArrayList<PlaceVO> searchPlaceList = travelInfo_s.getSearchPlaceList(cri);
         int totalCount = travelInfo_s.getSearchPlaceListCount(cri);
-        PageMaker pm = new PageMaker(3, cri, totalCount);
+        PageMaker pm = new PageMaker(displayPageNum, cri, totalCount);
         model.addAttribute("placeList", searchPlaceList);
         model.addAttribute("pm", pm);
         return "/planning/place/placebytype";
