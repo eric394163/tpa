@@ -86,6 +86,11 @@ public class PlanningController {
             @RequestParam("startPlaceLat") String startPlaceLat,
             @RequestParam("startPlaceLng") String startPlaceLng) {
 
+                double regionLat = travelInfo_s.getRegionLat(region_NUM);
+                double regionLng = travelInfo_s.getRegionLng(region_NUM);
+
+        model.addAttribute("regionLat", regionLat);
+        model.addAttribute("regionLng", regionLng);
         model.addAttribute("startDate", schedule_startDate);
         model.addAttribute("endDate", schedule_endDate);
         model.addAttribute("regionNum", region_NUM);

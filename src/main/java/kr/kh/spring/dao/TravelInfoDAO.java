@@ -30,4 +30,7 @@ public interface TravelInfoDAO {
     ArrayList<PlaceVO> selectPlaceBySearch(@Param("cri") PlaceCriteria cri);
     int selectPlaceTotalCountSearch(@Param("cri") PlaceCriteria cri);
 
+	double selectRegionLat(int region_NUM);
+    double selectRegionLng(int region_NUM);
+
 }

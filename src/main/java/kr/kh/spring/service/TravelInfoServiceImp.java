@@ -110,6 +110,22 @@ public class TravelInfoServiceImp implements TravelInfoService {
         return travelInfoDAO.selectPlaceTotalCountSearch(cri);
     }
 
+    @Override
+    public double getRegionLat(int region_NUM) {
+        if(region_NUM == 0) {
+            return 0;
+        }
+        return travelInfoDAO.selectRegionLat(region_NUM);
+    }
+
+    @Override
+    public double getRegionLng(int region_NUM) {
+        if(region_NUM == 0) {
+            return 0;
+        }
+        return travelInfoDAO.selectRegionLng(region_NUM);
+    }
+
 
     
 }

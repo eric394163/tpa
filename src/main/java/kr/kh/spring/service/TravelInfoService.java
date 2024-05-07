@@ -24,6 +24,10 @@ public interface TravelInfoService {
 
     int getSearchPlaceListCount(PlaceCriteria cri);
 
+    double getRegionLat(int region_NUM);
+
+    double getRegionLng(int region_NUM);
+
 
 
     
