@@ -268,10 +268,10 @@
 
                     button.addEventListener('click', function () {
                         if (placeHolder.style.transform === 'translateX(-100%)') {
-                            // 플레이스 홀더를 다시 보이게 합니다.
+                            // 플레이스 홀더 보이기
                             placeHolder.style.transform = 'translateX(0)';
                         } else {
-                            // 플레이스 홀더를 숨깁니다.
+                            // 플레이스 홀더 숨김
                             placeHolder.style.transform = 'translateX(-100%)';
                         }
                     });
@@ -282,9 +282,11 @@
             <script>
                 let map;
                 let markers = [];
+                let regionLat = "${regionLat}";
+                let regionLng = "${regionLng}";
 
                 function initMap() {
-                    const firstLocation = new google.maps.LatLng(37.495484, 127.033357);
+                    const firstLocation = new google.maps.LatLng(regionLat, regionLng);
                     map = new google.maps.Map(document.getElementById("map"), {
                         center: firstLocation,
                         zoom: 15
@@ -295,6 +297,7 @@
 
                 document.addEventListener('DOMContentLoaded', function () {
                     document.body.addEventListener('click', function (e) {
+                        console.log("실행됨");
                         if (e.target.dataset.placeName) {
                             const placeName = e.target.dataset.placeName;
                             const placeNum = e.target.dataset.placeNum;
@@ -337,19 +340,19 @@
                             position: position,
                             title: place.placeName
                         });
-                        marker.placeNum = place.placeNum; // Associate the placeNum with the marker
+                        marker.placeNum = place.placeNum;
                         markers.push(marker);
                         map.setCenter(position);
                     }
 
                     function removePlaceAndMarker(placeNum) {
-                        // Remove the place div
+
                         const place = document.querySelector(`div[data-place-num="\${placeNum}"]`);
                         if (place) {
                             place.parentNode.removeChild(place);
                         }
 
-                        // Find and remove the marker
+
                         const marker = markers.find(m => m.placeNum === placeNum);
                         if (marker) {
                             marker.setMap(null);
@@ -370,8 +373,10 @@
                     let searchBtn = document.getElementById('submit-place-add-search');
                     let searchResultsContainer = document.getElementById('search-place-content');
 
-                    let autocomplete;  // Google places autocomplete 객체
-                    let placesService;  // Google places service 객체
+                    let autocomplete;
+                    let placesService;
+
+
 
                     function initGooglePlaces() {
                         let map = new google.maps.Map(document.createElement('div'));
@@ -386,11 +391,12 @@
                             alert('검색어를 입력해주세요.');
                             return;
                         }
+                        console.log(regionLat, regionLng);
                         placesService.textSearch({
                             query: query,
                             language: 'ko',
-                            // location: new google.maps.LatLng(coords.lat, coords.lng),
-                            // radius: 5000, // 5km 반경
+                            // location: new google.maps.LatLng(regionLat, regionLng),
+                            // radius: 20000,  // 20km
                         }, function (results, status) {
                             if (status === google.maps.places.PlacesServiceStatus.OK) {
                                 displayResults(results);
@@ -404,7 +410,22 @@
                         searchResultsContainer.innerHTML = '';
                         results.forEach(function (place) {
                             let div = document.createElement('div');
-                            div.textContent = place.name;
+                            div.style.border = 'solid 1px';
+                            div.style.borderRadius = '10px';
+                            div.style.display = 'flex';
+
+                            let h2 = document.createElement('h2');
+                            h2.textContent = place.name;
+                            div.appendChild(h2);
+
+                            let button = document.createElement('button');
+                            button.dataset.placeName = place.name;
+                            button.dataset.placeNum = place.place_id;
+                            button.dataset.lat = place.geometry.location.lat();
+                            button.dataset.lng = place.geometry.location.lng();
+                            button.textContent = '+';
+                            div.appendChild(button);
+
                             searchResultsContainer.appendChild(div);
                         });
                     }

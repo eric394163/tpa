@@ -34,3 +34,9 @@ public interface TravelInfoDAO {
     double selectRegionLng(int region_NUM);
 
 }
+
+
+
+
+
+
