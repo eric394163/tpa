@@ -126,6 +126,17 @@ public class TravelInfoServiceImp implements TravelInfoService {
         return travelInfoDAO.selectRegionLng(region_NUM);
     }
 
+    @Override
+    public boolean placeExists(String placeId) {
+        return travelInfoDAO.selectCountByPlaceId(placeId) > 0;
+    }
+
+
+    @Override
+    public void addPlace(int regionNum, double placeRating, String placeId, String placeName, double lat, double lng, String placeAddress) {
+        travelInfoDAO.insertPlace(regionNum, placeRating, placeId, placeName, lat, lng, placeAddress);
+    }
+
 
     
 }

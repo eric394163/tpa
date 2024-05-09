@@ -28,6 +28,10 @@ public interface TravelInfoService {
 
     double getRegionLng(int region_NUM);
 
+    boolean placeExists(String placeId);
+
+    void addPlace(int regionNum, double placeRating, String placeId, String placeName, double lat, double lng, String placeAddress);
+
 
 
     

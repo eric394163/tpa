@@ -171,8 +171,6 @@
             OR p.place_address LIKE CONCAT('%', #{cri.search}, '%')  
         );
     </select>
-
-
     <select id="selectRegionLat" resultType="double">
         SELECT region_lat
         FROM region
@@ -184,4 +182,14 @@
         WHERE region_NUM = #{region_NUM};
     </select>
 
+    <select id="selectCountByPlaceId" resultType="int" >
+        SELECT COUNT(*)
+        FROM place
+        WHERE place_id = #{placeId};
+    </select>
+
+    <insert id="insertPlace">
+        insert into place (place_region_NUM, place_id, place_name, place_rating, place_address,  place_lat, place_lng)
+        values (#{regionNUM}, #{placeId}, #{placeName}, #{placeRating}, #{placeAddress}, #{lat}, #{lng});
+    </insert>
 </mapper>

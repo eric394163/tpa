@@ -2,6 +2,8 @@
 package kr.kh.spring.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import kr.kh.spring.model.vo.DivisionVO;
 import kr.kh.spring.model.vo.PlaceVO;
@@ -86,8 +89,8 @@ public class PlanningController {
             @RequestParam("startPlaceLat") String startPlaceLat,
             @RequestParam("startPlaceLng") String startPlaceLng) {
 
-                double regionLat = travelInfo_s.getRegionLat(region_NUM);
-                double regionLng = travelInfo_s.getRegionLng(region_NUM);
+        double regionLat = travelInfo_s.getRegionLat(region_NUM);
+        double regionLng = travelInfo_s.getRegionLng(region_NUM);
 
         model.addAttribute("regionLat", regionLat);
         model.addAttribute("regionLng", regionLng);
@@ -98,7 +101,6 @@ public class PlanningController {
         model.addAttribute("startPlaceId", startPlaceId);
         model.addAttribute("startPlaceLat", startPlaceLat);
         model.addAttribute("startPlaceLng", startPlaceLng);
-
 
         return "/planning/selectplace";
     }
@@ -161,5 +163,21 @@ public class PlanningController {
         model.addAttribute("placeList", searchPlaceList);
         model.addAttribute("pm", pm);
         return "/planning/place/placebytype";
+    }
+
+    @ResponseBody
+    @PostMapping("/planning/useraddplace")
+    public Map<String, String> addPlace(@RequestParam int regionNum, @RequestParam double placeRating,  @RequestParam String placeId, @RequestParam String placeName,
+            @RequestParam double lat, @RequestParam double lng, @RequestParam String placeAddress) {
+        Map<String, String> response = new HashMap<>();
+
+        if (travelInfo_s.placeExists(placeId)) {
+            response.put("status", "exists");
+        } else {
+            travelInfo_s.addPlace(regionNum, placeRating, placeId, placeName, lat, lng, placeAddress);
+            response.put("status", "added");
+        }
+
+        return response;
     }
 }

@@ -163,6 +163,7 @@
             </div>
             </div>
 
+            <!--장소 검색 스크립트-->
             <script>
                 $(document).ready(function () {
                     let currentPage = "${pm.cri.page}";  // 현재 페이지 번호를 추적
@@ -304,7 +305,7 @@
                             const longitude = parseFloat(e.target.dataset.lng);
                             addToPlaceHolder(placeName, placeId, latitude, longitude);
                         } else if (e.target.classList.contains('remove-place')) {
-                            const placeId= e.target.dataset.placeId;
+                            const placeId = e.target.dataset.placeId;
                             removePlaceAndMarker(placeId);
                         }
                     });
@@ -329,7 +330,7 @@
                         newPlace.style.borderBottom = '1px solid #ccc';
                         placeHolder.appendChild(newPlace);
 
-                        createMarker({ lat: lat, lng: lng, placeName: placeName, placeId: placeId});
+                        createMarker({ lat: lat, lng: lng, placeName: placeName, placeId: placeId });
                     }
 
                     function createMarker(place) {
@@ -339,7 +340,7 @@
                             position: position,
                             title: place.placeName
                         });
-                        marker.placeId= place.placeId;
+                        marker.placeId = place.placeId;
                         markers.push(marker);
                         map.setCenter(position);
                     }
@@ -352,7 +353,7 @@
                         }
 
 
-                        const marker = markers.find(m => m.placeId=== placeId);
+                        const marker = markers.find(m => m.placeId === placeId);
                         if (marker) {
                             marker.setMap(null);
                             markers = markers.filter(m => m !== marker);
@@ -375,6 +376,8 @@
 
                     let autocomplete;
                     let placesService;
+                    let regionNum = "${regionNum}";
+                    console.log(regionNum);
 
 
 
@@ -405,7 +408,6 @@
                             }
                         });
                     }
-
                     function displayResults(results) {
                         searchResultsContainer.innerHTML = '';
                         results.forEach(function (place) {
@@ -419,14 +421,60 @@
                             div.appendChild(h2);
 
                             let button = document.createElement('button');
+                            button.id = 'user-add-place-to-place-holder';
                             button.dataset.placeName = place.name;
-                            button.dataset.placeId= place.place_id;
+                            button.dataset.placeId = place.place_id;
                             button.dataset.lat = place.geometry.location.lat();
                             button.dataset.lng = place.geometry.location.lng();
+                            button.dataset.address = place.formatted_address;
+                            button.dataset.regionNum = regionNum;
+                            button.dataset.placeRating = place.rating;
                             button.textContent = '+';
                             div.appendChild(button);
 
                             searchResultsContainer.appendChild(div);
+
+
+                            button.addEventListener('click', function () {
+                                event.stopPropagation(); // 이벤트 전파 중지
+                                addToPlaceHolderUser(regionNum, place.rating, place.name, place.place_id, place.formatted_address, place.geometry.location.lat(), place.geometry.location.lng());
+                            });
+                        });
+                    }
+
+                    function addToPlaceHolderUser(regionNum, placeRating, placeName, placeId, placeAddress, lat, lng) {
+
+                        $.ajax({
+                            url: "<c:url value='/planning/useraddplace'/>",
+                            type: 'POST',
+                            data: {
+                                regionNum: regionNum,
+                                placeRating: placeRating,
+                                placeId: placeId,
+                                placeName: placeName,
+                                lat: lat,
+                                lng: lng,
+                                placeAddress: placeAddress
+
+                            },
+                            success: function (response) {
+                                if (response.status === 'exists') {
+                                    alert('이미 저장된 장소입니다.');
+                                } else if (response.status === 'added') {
+                                    const placeHolder = document.querySelector('.place-holder');
+                                    const newPlace = document.createElement('div');
+                                    newPlace.innerHTML = `<strong>(ID: \${placeId}) \${placeName}</strong>
+                                          <span class="remove-place" data-place-id="\${placeId}" style="cursor:pointer;color:red;margin-left:10px;">x</span>`;
+                                    newPlace.setAttribute('data-place-id', placeId);
+                                    newPlace.style.padding = '10px';
+                                    newPlace.style.borderBottom = '1px solid #ccc';
+                                    placeHolder.appendChild(newPlace);
+                                    // createMarker({ lat: lat, lng: lng, placeName: placeName, placeId: placeId });
+                                }
+                            },
+                            error: function (xhr, status, error) {
+                                console.error(xhr);
+                            }
                         });
                     }
 
@@ -434,6 +482,7 @@
                         event.preventDefault();
                         searchPlaces();
                     });
+
 
                     initGooglePlaces();
                 });
