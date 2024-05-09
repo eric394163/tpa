@@ -1,9 +1,8 @@
 package kr.kh.spring.service;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,7 +10,6 @@ import org.springframework.stereotype.Service;
 import kr.kh.spring.dao.TravelInfoDAO;
 import kr.kh.spring.model.vo.DivisionVO;
 import kr.kh.spring.model.vo.PlaceVO;
-import kr.kh.spring.model.vo.RegionVO;
 import kr.kh.spring.model.vo.ThemeVO;
 import kr.kh.spring.pagination.PlaceCriteria;
 
@@ -48,7 +46,7 @@ public class TravelInfoServiceImp implements TravelInfoService {
     // - 상세기능 : 타입이 -1 ( 없음 ) 이면 지역과 테마에 따른 장소 가져오고
     // 타입이 1 (추천) 이면 많이 일정에 등록된 지역과 테마에 따른 장소 가져옴
     // 타임이 2 이상이면 타입에 따른 지역과 테마에 따르는 장소 가져옴
-    // 수정 : 타입 -1은 사용 안 함 
+    // 수정 : 타입 -1은 사용 안 함
     @Override
     public ArrayList<PlaceVO> getPlaceList(PlaceCriteria cri) {
 
@@ -56,8 +54,8 @@ public class TravelInfoServiceImp implements TravelInfoService {
             return null;
         }
 
-        // if (cri.getPlacetypelist_NUM() == -1) { 
-        //     return travelInfoDAO.selectPlaceByRegionAndTheme(cri);
+        // if (cri.getPlacetypelist_NUM() == -1) {
+        // return travelInfoDAO.selectPlaceByRegionAndTheme(cri);
         // }
         if (cri.getPlacetypelist_NUM() == 1) {
 
@@ -81,7 +79,7 @@ public class TravelInfoServiceImp implements TravelInfoService {
             return 0;
         }
         // if (cri.getPlacetypelist_NUM() == -1) {
-        //     return travelInfoDAO.selectPlaceTotalCount(cri);
+        // return travelInfoDAO.selectPlaceTotalCount(cri);
         // }
         if (cri.getPlacetypelist_NUM() == 1) {
             return travelInfoDAO.selectPlaceTotalCountMost(cri);
@@ -112,7 +110,7 @@ public class TravelInfoServiceImp implements TravelInfoService {
 
     @Override
     public double getRegionLat(int region_NUM) {
-        if(region_NUM == 0) {
+        if (region_NUM == 0) {
             return 0;
         }
         return travelInfoDAO.selectRegionLat(region_NUM);
@@ -120,7 +118,7 @@ public class TravelInfoServiceImp implements TravelInfoService {
 
     @Override
     public double getRegionLng(int region_NUM) {
-        if(region_NUM == 0) {
+        if (region_NUM == 0) {
             return 0;
         }
         return travelInfoDAO.selectRegionLng(region_NUM);
@@ -133,10 +131,21 @@ public class TravelInfoServiceImp implements TravelInfoService {
 
 
     @Override
-    public void addPlace(int regionNum, double placeRating, String placeId, String placeName, double lat, double lng, String placeAddress) {
+    public void addPlace(int regionNum, double placeRating, String placeId, String placeName, double lat, double lng,
+            String placeAddress, List<String> placeTypesList) {
         travelInfoDAO.insertPlace(regionNum, placeRating, placeId, placeName, lat, lng, placeAddress);
+        int place_NUM = travelInfoDAO.selectPlaceNum(placeId);
+        String type = placeTypesList.get(0);
+
+        if(type.equals("식당")){
+            travelInfoDAO.insertPlaceType(place_NUM, 2);
+        }else if(type.equals("cafe")){
+            travelInfoDAO.insertPlaceType(place_NUM, 3);
+        }else if(type=="관광지"){
+            travelInfoDAO.insertPlaceType(place_NUM, 4);
+        }else if(type=="숙소"){
+            travelInfoDAO.insertPlaceType(place_NUM, 5);
+        }
     }
 
-
-    
 }

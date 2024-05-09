@@ -429,6 +429,7 @@
                             button.dataset.address = place.formatted_address;
                             button.dataset.regionNum = regionNum;
                             button.dataset.placeRating = place.rating;
+                            button.dataset.placeTypes = place.types.join(',');
                             button.textContent = '+';
                             div.appendChild(button);
 
@@ -437,13 +438,13 @@
 
                             button.addEventListener('click', function () {
                                 event.stopPropagation(); // 이벤트 전파 중지
-                                addToPlaceHolderUser(regionNum, place.rating, place.name, place.place_id, place.formatted_address, place.geometry.location.lat(), place.geometry.location.lng());
+                                addToPlaceHolderUser(regionNum, place.rating, place.name, place.place_id, place.formatted_address, place.geometry.location.lat(), place.geometry.location.lng(), place.types.join(','));
                             });
                         });
                     }
 
-                    function addToPlaceHolderUser(regionNum, placeRating, placeName, placeId, placeAddress, lat, lng) {
-
+                    function addToPlaceHolderUser(regionNum, placeRating, placeName, placeId, placeAddress, lat, lng, placeTypes) {
+                        console.log(placeTypes)
                         $.ajax({
                             url: "<c:url value='/planning/useraddplace'/>",
                             type: 'POST',
@@ -454,7 +455,8 @@
                                 placeName: placeName,
                                 lat: lat,
                                 lng: lng,
-                                placeAddress: placeAddress
+                                placeAddress: placeAddress,
+                                placeTypes: placeTypes
 
                             },
                             success: function (response) {

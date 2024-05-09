@@ -1,6 +1,7 @@
 package kr.kh.spring.service;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.stereotype.Service;
 
@@ -30,9 +31,7 @@ public interface TravelInfoService {
 
     boolean placeExists(String placeId);
 
-    void addPlace(int regionNum, double placeRating, String placeId, String placeName, double lat, double lng, String placeAddress);
+    void addPlace(int regionNum, double placeRating, String placeId, String placeName, double lat, double lng,
+            String placeAddress, List<String> placeTypesList);
 
-
-
-    
 }

@@ -2,7 +2,9 @@
 package kr.kh.spring.controller;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -168,13 +170,15 @@ public class PlanningController {
     @ResponseBody
     @PostMapping("/planning/useraddplace")
     public Map<String, String> addPlace(@RequestParam int regionNum, @RequestParam double placeRating,  @RequestParam String placeId, @RequestParam String placeName,
-            @RequestParam double lat, @RequestParam double lng, @RequestParam String placeAddress) {
+            @RequestParam double lat, @RequestParam double lng, @RequestParam String placeAddress, @RequestParam String placeTypes) {
         Map<String, String> response = new HashMap<>();
+
+        List<String> placeTypesList = Arrays.asList(placeTypes.split(","));
 
         if (travelInfo_s.placeExists(placeId)) {
             response.put("status", "exists");
         } else {
-            travelInfo_s.addPlace(regionNum, placeRating, placeId, placeName, lat, lng, placeAddress);
+            travelInfo_s.addPlace(regionNum, placeRating, placeId, placeName, lat, lng, placeAddress, placeTypesList);
             response.put("status", "added");
         }
 

@@ -188,8 +188,20 @@
         WHERE place_id = #{placeId};
     </select>
 
+    <!-- 장소 추가 -->
     <insert id="insertPlace">
         insert into place (place_region_NUM, place_id, place_name, place_rating, place_address,  place_lat, place_lng)
         values (#{regionNUM}, #{placeId}, #{placeName}, #{placeRating}, #{placeAddress}, #{lat}, #{lng});
+    </insert>
+
+    <select id="selectPlaceNum" resultType="int">
+        SELECT place_NUM
+        FROM place
+        WHERE place_id = #{placeId};
+    </select>
+
+    <insert id="insertPlaceType">
+        insert into placetype (placetype_place_NUM, placetype_placetypelist_NUM)
+        values (#{place_NUM}, #{typeNum});
     </insert>
 </mapper>

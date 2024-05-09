@@ -44,4 +44,8 @@ public interface TravelInfoDAO {
             @Param("placeId") String placeId, @Param("placeName") String placeName, @Param("lat") double lat,
             @Param("lng") double lng, @Param("placeAddress") String placeAddress);
 
+    int selectPlaceNum(@Param("placeId") String placeId);
+
+    void insertPlaceType(@Param("place_NUM") int place_NUM, @Param("typeNum") int typeNum);
+
 }
