@@ -297,40 +297,39 @@
 
                 document.addEventListener('DOMContentLoaded', function () {
                     document.body.addEventListener('click', function (e) {
-                        console.log("실행됨");
                         if (e.target.dataset.placeName) {
                             const placeName = e.target.dataset.placeName;
-                            const placeNum = e.target.dataset.placeNum;
+                            const placeId = e.target.dataset.placeId;
                             const latitude = parseFloat(e.target.dataset.lat);
                             const longitude = parseFloat(e.target.dataset.lng);
-                            addToPlaceHolder(placeName, placeNum, latitude, longitude);
+                            addToPlaceHolder(placeName, placeId, latitude, longitude);
                         } else if (e.target.classList.contains('remove-place')) {
-                            const placeNum = e.target.dataset.placeNum;
-                            removePlaceAndMarker(placeNum);
+                            const placeId= e.target.dataset.placeId;
+                            removePlaceAndMarker(placeId);
                         }
                     });
 
-                    function addToPlaceHolder(placeName, placeNum, lat, lng) {
+                    function addToPlaceHolder(placeName, placeId, lat, lng) {
                         const placeHolder = document.querySelector('.place-holder');
                         if (!placeHolder) {
                             console.error('Place holder element not found.');
                             return;
                         }
 
-                        if (isPlaceAdded(placeNum)) {
-                            alert("This place is already added.");
+                        if (isPlaceAdded(placeId)) {
+                            alert("이미 추가한 장소입니다.");
                             return;
                         }
 
                         const newPlace = document.createElement('div');
-                        newPlace.innerHTML = `<strong>(ID: \${placeNum}) \${placeName}</strong>
-                                              <span class="remove-place" data-place-num="\${placeNum}" style="cursor:pointer;color:red;margin-left:10px;">x</span>`;
-                        newPlace.setAttribute('data-place-num', placeNum);
+                        newPlace.innerHTML = `<strong>(ID: \${placeId}) \${placeName}</strong>
+                                              <span class="remove-place" data-place-id="\${placeId}" style="cursor:pointer;color:red;margin-left:10px;">x</span>`;
+                        newPlace.setAttribute('data-place-id', placeId);
                         newPlace.style.padding = '10px';
                         newPlace.style.borderBottom = '1px solid #ccc';
                         placeHolder.appendChild(newPlace);
 
-                        createMarker({ lat: lat, lng: lng, placeName: placeName, placeNum: placeNum });
+                        createMarker({ lat: lat, lng: lng, placeName: placeName, placeId: placeId});
                     }
 
                     function createMarker(place) {
@@ -340,33 +339,34 @@
                             position: position,
                             title: place.placeName
                         });
-                        marker.placeNum = place.placeNum;
+                        marker.placeId= place.placeId;
                         markers.push(marker);
                         map.setCenter(position);
                     }
 
-                    function removePlaceAndMarker(placeNum) {
+                    function removePlaceAndMarker(placeId) {
 
-                        const place = document.querySelector(`div[data-place-num="\${placeNum}"]`);
+                        const place = document.querySelector(`div[data-place-id="\${placeId}"]`);
                         if (place) {
                             place.parentNode.removeChild(place);
                         }
 
 
-                        const marker = markers.find(m => m.placeNum === placeNum);
+                        const marker = markers.find(m => m.placeId=== placeId);
                         if (marker) {
                             marker.setMap(null);
                             markers = markers.filter(m => m !== marker);
                         }
                     }
 
-                    function isPlaceAdded(placeNum) {
-                        const existingPlaces = document.querySelectorAll('.place-holder div[data-place-num]');
-                        return Array.from(existingPlaces).some(place => place.getAttribute('data-place-num') === placeNum);
+                    function isPlaceAdded(placeId) {
+                        const existingPlaces = document.querySelectorAll('.place-holder div[data-place-id]');
+                        return Array.from(existingPlaces).some(place => place.getAttribute('data-place-id') === placeId);
                     }
                 });
             </script>
 
+            <!-- 장소 추가 검색 스크립트 -->
             <script>
                 document.addEventListener('DOMContentLoaded', function () {
                     let searchInput = document.getElementById('place-add-search');
@@ -420,7 +420,7 @@
 
                             let button = document.createElement('button');
                             button.dataset.placeName = place.name;
-                            button.dataset.placeNum = place.place_id;
+                            button.dataset.placeId= place.place_id;
                             button.dataset.lat = place.geometry.location.lat();
                             button.dataset.lng = place.geometry.location.lng();
                             button.textContent = '+';
