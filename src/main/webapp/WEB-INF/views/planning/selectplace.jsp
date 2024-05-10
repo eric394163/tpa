@@ -172,9 +172,6 @@
                     <div id="map" style="height: 100%;">
                     </div>
                 </div>
-                ${startPlaceId}
-                ${startPlaceLat}
-                ${startPlaceLng}
             </div>
             </div>
             </div>
@@ -252,7 +249,6 @@
 
             </script>
 
-
             <!--장소 선택/추가 버튼 스트=크립트-->
             <script type="text/javascript">
                 $(document).ready(function () {
@@ -274,8 +270,6 @@
 
                 });
             </script>
-
-
 
             <!--장소 보관함 스크립트-->
             <script>
@@ -520,6 +514,8 @@
                     initGooglePlaces();
                 });
             </script>
+
+            <!-- 장소 선택 버튼 클릭 시 장소 ID 수집하는 스크립트 -->
             <script>
                 document.addEventListener('DOMContentLoaded', function () {
                     document.getElementById('submit-place').addEventListener('click', function (event) {
