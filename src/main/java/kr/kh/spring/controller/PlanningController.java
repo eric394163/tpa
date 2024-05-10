@@ -91,6 +91,10 @@ public class PlanningController {
             @RequestParam("startPlaceLat") String startPlaceLat,
             @RequestParam("startPlaceLng") String startPlaceLng) {
 
+                System.out.println("startPlaceId: " + startPlaceId);
+                System.out.println("startPlaceLat: " + startPlaceLat);
+                System.out.println("startPlaceLng: " + startPlaceLng);
+
         double regionLat = travelInfo_s.getRegionLat(region_NUM);
         double regionLng = travelInfo_s.getRegionLng(region_NUM);
 
@@ -187,4 +191,24 @@ public class PlanningController {
 
         return response;
     }
+
+    @PostMapping("/planning/makeplan")
+    public String makeplan(Model model, @RequestParam("startDate") String schedule_startDate,
+            @RequestParam("endDate") String schedule_endDate, @RequestParam("regionNum") int region_NUM,
+            @RequestParam("themeNum") int theme_NUM, @RequestParam("startPlaceId") String startPlaceId,
+            @RequestParam("startPlaceLat") String startPlaceLat, @RequestParam("startPlaceLng") String startPlaceLng,
+            @RequestParam("selectedPlaceNums") String selectedPlaceNums) {
+
+        model.addAttribute("startDate", schedule_startDate);
+        model.addAttribute("endDate", schedule_endDate);
+        model.addAttribute("regionNum", region_NUM);
+        model.addAttribute("themeNum", theme_NUM);
+        model.addAttribute("startPlaceId", startPlaceId);
+        model.addAttribute("startPlaceLat", startPlaceLat);
+        model.addAttribute("startPlaceLng", startPlaceLng);
+        model.addAttribute("selectedPlaceNums", selectedPlaceNums);
+
+        return "/planning/makeplan";
+    }
+
 }

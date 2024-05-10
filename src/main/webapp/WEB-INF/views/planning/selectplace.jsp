@@ -172,6 +172,9 @@
                     <div id="map" style="height: 100%;">
                     </div>
                 </div>
+                ${startPlaceId}
+                ${startPlaceLat}
+                ${startPlaceLng}
             </div>
             </div>
             </div>

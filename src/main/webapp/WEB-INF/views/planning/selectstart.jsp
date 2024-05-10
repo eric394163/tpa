@@ -136,6 +136,9 @@
 
                 //마커생성
                 function createMarker(place) {
+                    let placeId = place.place_id;
+                    let lat = place.geometry.location.lat;
+                    let lng = place.geometry.location.lng;
                     if (!place.geometry || !place.geometry.location) return; // geometry 또는 location이 없으면 함수 종료
                     clearMarkers();
                     const marker = new google.maps.Marker({ // 마커 생성
@@ -143,11 +146,7 @@
                         position: place.geometry.location, // 위치
                     });
 
-                    google.maps.event.addListener(marker, "click", () => { // 마커 클릭 이벤트
-                        console.log(place.place_id);
-                        updateLocationInputs(place.geometry.location.lat, place.geometry.location.lng, place.place_id);
-                    });
-                    //updateLocationInputs(place.geometry.location.lat(), place.geometry.location.lng(), place.place_id);
+                    updateLocationInputs(lat, lng, placeId);
                     markers.push(marker);
                 }
 
@@ -182,8 +181,6 @@
                     } else {
                         document.getElementById("startPlaceLat").value = lat;
                         document.getElementById("startPlaceLng").value = lng;
-
-                        console.log(lat, lng);
                     }
                 }
 
