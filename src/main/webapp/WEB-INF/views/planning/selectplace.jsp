@@ -390,17 +390,18 @@
                     let searchInput = document.getElementById('place-add-search');
                     let searchBtn = document.getElementById('submit-place-add-search');
                     let searchResultsContainer = document.getElementById('search-place-content');
-
                     let autocomplete;
                     let placesService;
                     let regionNum = "${regionNum}";
-                    console.log(regionNum);
-
+                    let regionLat = "${regionLat}";
+                    let regionLng = "${regionLng}";
 
 
                     function initGooglePlaces() {
                         let map = new google.maps.Map(document.createElement('div'));
-                        autocomplete = new google.maps.places.Autocomplete(searchInput);
+                        autocomplete = new google.maps.places.Autocomplete(searchInput, {
+                            componentRestrictions: { country: 'kr' },
+                        });
                         autocomplete.bindTo('bounds', map);
                         placesService = new google.maps.places.PlacesService(map);
                     }
@@ -411,12 +412,17 @@
                             alert('검색어를 입력해주세요.');
                             return;
                         }
-                        console.log(regionLat, regionLng);
-                        placesService.textSearch({
-                            query: query,
-                            language: 'ko',
-                            // location: new google.maps.LatLng(regionLat, regionLng),
-                            // radius: 20000,  // 20km
+
+                        const location = {
+                            lat: parseFloat("${regionLat}"),
+                            lng: parseFloat("${regionLng}")
+                        };
+
+                        placesService.nearbySearch({
+                            location: location,
+                            radius: 20000,  // 20km
+                            keyword: query // 20km
+
                         }, function (results, status) {
                             if (status === google.maps.places.PlacesServiceStatus.OK) {
                                 displayResults(results);
