@@ -14,7 +14,7 @@
                     <div style="border: solid 1px; border-radius: 10px; display: flex;">
                         <h2>${place.place_name}</h2>
                         <button id="add-to-place-holder" data-place-name="${place.place_name}" data-place-id="${place.place_id}"
-                            data-lat="${place.place_lat}" data-lng="${place.place_lng}">+</button>
+                            data-lat="${place.place_lat}" data-lng="${place.place_lng}" data-place-num="${place.place_NUM}">+</button>
                     </div>
                 </c:forEach>
 

@@ -179,7 +179,11 @@ public class PlanningController {
             response.put("status", "exists");
         } else {
             travelInfo_s.addPlace(regionNum, placeRating, placeId, placeName, lat, lng, placeAddress, placeTypesList);
+            int placeNum = travelInfo_s.getPlaceNum(placeId);
+            System.out.println();
+            String placeNumStr = Integer.toString(placeNum);
             response.put("status", "added");
+            response.put("placeNumStr", placeNumStr);
         }
 
         return response;

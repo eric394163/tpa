@@ -147,6 +147,7 @@
                             </div>
                             <div class="search-place-content-container">
                                 <div id="search-place-content"></div>
+
                             </div>
                         </div>
                     </div>
@@ -154,7 +155,19 @@
                 <div class="map box" style="height: 100%; position: relative; width: 75%; float: left;">
                     <div class="place-holder">
                         <button aria-expanded="true" class="place-holder-btn"><span class="blind">패널 접기</span></button>
-
+                        <div class="place-holder-content" style="overflow-y: auto; ">
+                        </div>
+                        <form id="selectStart" action="<c:url value='/planning/makeplan'/>" method="post">
+                            <input type="hidden" name="startDate" value="${startDate}">
+                            <input type="hidden" name="endDate" value="${endDate}">
+                            <input type="hidden" name="regionNum" value="${regionNum}">
+                            <input type="hidden" name="themeNum" value="${themeNum}">
+                            <input type="hidden" id="startPlaceId" name="startPlaceId" value="${startPlaceId}">
+                            <input type="hidden" id="startPlaceLat" name="startPlaceLat" value="${startPlaceLat}">
+                            <input type="hidden" id="startPlaceLng" name="startPlaceLng" value="${startPlaceLng}">
+                            <input type="hidden" id="selectedPlaceNums" name="selectedPlaceNums" value="">
+                            <button type="submit" id="submit-place">장소 선택</button>
+                        </form>
                     </div>
                     <div id="map" style="height: 100%;">
                     </div>
@@ -301,17 +314,18 @@
                         if (e.target.dataset.placeName) {
                             const placeName = e.target.dataset.placeName;
                             const placeId = e.target.dataset.placeId;
+                            const placeNum = e.target.dataset.placeNum;
                             const latitude = parseFloat(e.target.dataset.lat);
                             const longitude = parseFloat(e.target.dataset.lng);
-                            addToPlaceHolder(placeName, placeId, latitude, longitude);
+                            addToPlaceHolder(placeName, placeId, latitude, longitude, placeNum);
                         } else if (e.target.classList.contains('remove-place')) {
                             const placeId = e.target.dataset.placeId;
                             removePlaceAndMarker(placeId);
                         }
                     });
 
-                    function addToPlaceHolder(placeName, placeId, lat, lng) {
-                        const placeHolder = document.querySelector('.place-holder');
+                    function addToPlaceHolder(placeName, placeId, lat, lng, placeNum) {
+                        const placeHolder = document.querySelector('.place-holder-content');
                         if (!placeHolder) {
                             console.error('Place holder element not found.');
                             return;
@@ -324,8 +338,11 @@
 
                         const newPlace = document.createElement('div');
                         newPlace.innerHTML = `<strong>(ID: \${placeId}) \${placeName}</strong>
-                                              <span class="remove-place" data-place-id="\${placeId}" style="cursor:pointer;color:red;margin-left:10px;">x</span>`;
+                                              <span class="remove-place" data-place-id="\${placeId}" data-place-num="\${placeNum}" style="cursor:pointer;color:red;margin-left:10px;">x</span>`;
                         newPlace.setAttribute('data-place-id', placeId);
+                        newPlace.setAttribute('data-place-num', placeNum);
+                        console.log(placeNum);
+
                         newPlace.style.padding = '10px';
                         newPlace.style.borderBottom = '1px solid #ccc';
                         placeHolder.appendChild(newPlace);
@@ -361,7 +378,7 @@
                     }
 
                     function isPlaceAdded(placeId) {
-                        const existingPlaces = document.querySelectorAll('.place-holder div[data-place-id]');
+                        const existingPlaces = document.querySelectorAll('.place-holder-content div[data-place-id]');
                         return Array.from(existingPlaces).some(place => place.getAttribute('data-place-id') === placeId);
                     }
                 });
@@ -463,11 +480,16 @@
                                 if (response.status === 'exists') {
                                     alert('이미 저장된 장소입니다.');
                                 } else if (response.status === 'added') {
-                                    const placeHolder = document.querySelector('.place-holder');
+                                    const placeHolder = document.querySelector('.place-holder-content');
                                     const newPlace = document.createElement('div');
+                                    const placeNumStr = response.placeNumStr;
+                                    console.log(placeNumStr);
+                                    const placeNum = parseInt(placeNumStr, 10);
                                     newPlace.innerHTML = `<strong>(ID: \${placeId}) \${placeName}</strong>
                                           <span class="remove-place" data-place-id="\${placeId}" style="cursor:pointer;color:red;margin-left:10px;">x</span>`;
                                     newPlace.setAttribute('data-place-id', placeId);
+                                    newPlace.setAttribute('data-place-num', placeNum);
+                                    console.log(placeNum);
                                     newPlace.style.padding = '10px';
                                     newPlace.style.borderBottom = '1px solid #ccc';
                                     placeHolder.appendChild(newPlace);
@@ -489,6 +511,27 @@
                     initGooglePlaces();
                 });
             </script>
+            <script>
+                document.addEventListener('DOMContentLoaded', function () {
+                    document.getElementById('submit-place').addEventListener('click', function (event) {
+                        // 장소 ID를 수집할 배열
+                        let placeIds = [];
+
+                        // search-place-content 안에 있는 모든 장소의 ID를 수집
+                        document.querySelectorAll('.place-holder-content div[data-place-num]').forEach(function (place) {
+                            placeIds.push(place.getAttribute('data-place-num'));
+                        });
+
+                        // 숨겨진 입력 필드에 장소 ID 설정
+                        document.getElementById('selectedPlaceNums').value = placeIds.join(',');
+
+                        // 콘솔에 출력 (디버깅용)
+                        console.log('Selected Place Nums:', placeIds);
+                    });
+                });
+            </script>
+
+
 
             <script
                 src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD_dbDJ50HoF3zG_26w0y5gnCUDoL7RskA&callback=initMap&libraries=places&v=weekly"

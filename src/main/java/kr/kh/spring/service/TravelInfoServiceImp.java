@@ -3,7 +3,6 @@ package kr.kh.spring.service;
 import java.util.ArrayList;
 import java.util.List;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -129,23 +128,34 @@ public class TravelInfoServiceImp implements TravelInfoService {
         return travelInfoDAO.selectCountByPlaceId(placeId) > 0;
     }
 
-
     @Override
     public void addPlace(int regionNum, double placeRating, String placeId, String placeName, double lat, double lng,
             String placeAddress, List<String> placeTypesList) {
         travelInfoDAO.insertPlace(regionNum, placeRating, placeId, placeName, lat, lng, placeAddress);
-        int place_NUM = travelInfoDAO.selectPlaceNum(placeId);
+        int place_NUM = getPlaceNum(placeId);
+        System.out.println(place_NUM);
         String type = placeTypesList.get(0);
-
-        if(type.equals("식당")){
+        if (type.equals("bakery") || type.equals("bar") ||
+                type.equals("meal_delivery") || type.equals("meal_takeaway") || type.equals("restaurant")) {
             travelInfoDAO.insertPlaceType(place_NUM, 2);
-        }else if(type.equals("cafe")){
+        } else if (type.equals("cafe")) {
             travelInfoDAO.insertPlaceType(place_NUM, 3);
-        }else if(type=="관광지"){
+        } else if (type.equals("amusement_park") || type.equals("aquarium") || type.equals("art_gallery") ||
+                type.equals("casino") || type.equals("cemetery") || type.equals("church") ||
+                type.equals("hindu_temple") || type.equals("mosque") || type.equals("movie_theater") ||
+                type.equals("museum") || type.equals("night_club") || type.equals("park") ||
+                type.equals("stadium") || type.equals("synagogue") || type.equals("tourist_attraction") ||
+                type.equals("zoo")|| type.equals("supermarket")) {
             travelInfoDAO.insertPlaceType(place_NUM, 4);
-        }else if(type=="숙소"){
+        } else if (type.equals("campground") || type.equals("lodging") || type.equals("rv_park")) {
             travelInfoDAO.insertPlaceType(place_NUM, 5);
         }
+    }
+
+    @Override
+    public int getPlaceNum(String placeId) {
+        int placeNum = travelInfoDAO.selectPlaceNum(placeId);
+        return placeNum;
     }
 
 }

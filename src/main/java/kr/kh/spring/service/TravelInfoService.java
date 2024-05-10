@@ -34,4 +34,6 @@ public interface TravelInfoService {
     void addPlace(int regionNum, double placeRating, String placeId, String placeName, double lat, double lng,
             String placeAddress, List<String> placeTypesList);
 
+    int getPlaceNum(String placeId);
+
 }
